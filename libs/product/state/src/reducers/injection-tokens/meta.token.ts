@@ -1,7 +1,6 @@
 import { MetaReducer } from '@ngrx/store';
 
 import { createMultiInjectionToken } from '@daffodil/core';
-import { DaffProduct } from '@daffodil/product';
 
 import { DaffProductReducersState } from '../product-reducers-state.interface';
 
