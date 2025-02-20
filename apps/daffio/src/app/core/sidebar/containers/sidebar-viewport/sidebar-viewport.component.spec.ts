@@ -19,14 +19,14 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { BehaviorSubject } from 'rxjs';
 
 import {
-  DaffSidebarModule,
   DaffSidebarViewportComponent,
   DaffSidebarComponent,
   DaffSidebarModeEnum,
-  DaffSidebarRegistration,
+  DAFF_SIDEBAR_COMPONENTS,
 } from '@daffodil/design/sidebar';
 
 import { DaffioSidebarViewportContainer } from './sidebar-viewport.component';
+import { DaffioSidebarSectionRegistration } from '../../interfaces/section-registration.interface';
 import { DaffioSidebarService } from '../../services/sidebar.service';
 
 @Component({
@@ -42,7 +42,7 @@ describe('DaffioSidebarViewportContainer', () => {
   let daffSidebarViewport: DaffSidebarViewportComponent;
   let daffSidebar: DaffSidebarComponent;
 
-  let activeRegistration: BehaviorSubject<DaffSidebarRegistration>;
+  let activeRegistration: BehaviorSubject<DaffioSidebarSectionRegistration>;
   let mode: BehaviorSubject<DaffSidebarModeEnum>;
   let sidebarServiceSpy: jasmine.SpyObj<DaffioSidebarService>;
 
@@ -66,9 +66,11 @@ describe('DaffioSidebarViewportContainer', () => {
         DaffioSidebarViewportContainer,
         TestComponent,
       ],
-      imports: [RouterTestingModule,
+      imports: [
+        DAFF_SIDEBAR_COMPONENTS,
+        RouterTestingModule,
         NoopAnimationsModule,
-        DaffSidebarModule],
+      ],
       providers: [
         {
           provide: DaffioSidebarService,
@@ -118,6 +120,22 @@ describe('DaffioSidebarViewportContainer', () => {
     });
   });
 
+  describe('when there is a active registered component for the sidebar header with a custom strategy', () => {
+    beforeEach(() => {
+      activeRegistration.next({
+        id: 'id',
+        header: TestComponent,
+        headerStrategy: () => false,
+      });
+      fixture.detectChanges();
+    });
+
+    it('should not render the sidebar header', () => {
+      const sidebarHeader = fixture.debugElement.query(By.directive(TestComponent));
+      expect(sidebarHeader).toBeFalsy();
+    });
+  });
+
   describe('when there is not a active registered component for the sidebar header', () => {
     beforeEach(() => {
       activeRegistration.next({
@@ -144,6 +162,22 @@ describe('DaffioSidebarViewportContainer', () => {
     it('should render the sidebar footer', () => {
       const sidebarFooter = fixture.debugElement.query(By.directive(TestComponent));
       expect(sidebarFooter).toBeTruthy();
+    });
+  });
+
+  describe('when there is a active registered component for the sidebar footer with a custom strategy', () => {
+    beforeEach(() => {
+      activeRegistration.next({
+        id: 'id',
+        footer: TestComponent,
+        footerStrategy: () => false,
+      });
+      fixture.detectChanges();
+    });
+
+    it('should not render the sidebar footer', () => {
+      const sidebarHeader = fixture.debugElement.query(By.directive(TestComponent));
+      expect(sidebarHeader).toBeFalsy();
     });
   });
 
