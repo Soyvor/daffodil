@@ -41,6 +41,8 @@ export interface DaffProductServiceInterface<T extends DaffProduct = DaffProduct
    * Get a product by URL.
    *
    * @param url - A string of the product URL.
+   *
+   * See {@link DaffLocatable} for more information on the requirements for the url argument of {@link DaffProduct}.
    */
   getByUrl(url: DaffProduct['url']): Observable<DaffProductDriverResponse<T>>;
 }
