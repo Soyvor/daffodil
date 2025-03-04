@@ -1,0 +1,59 @@
+// stylelint-disable selector-class-pattern
+:host {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	&.in-sidebar {
+		.daffio-docs-table-of-contents-link {
+			&::before {
+				left: -1rem;
+			}
+		}
+	}
+}
+
+.daffio-docs-table-of-contents-link {
+	display: block;
+	font-size: 1rem;
+	line-height: 1.25rem;
+	text-decoration: none;
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: -0.75rem;
+		opacity: 0;
+		transition: opacity 300ms;
+		width: 0.125rem;
+		height: 100%;
+	}
+
+	&.active {
+		font-weight: 500;
+
+		&::before {
+			opacity: 1;
+		}
+	}
+
+	&.level-1 {
+		display: none;
+		padding: 0;
+	}
+
+	&.level-2 {
+		padding: 0;
+	}
+
+	&.level-3 {
+		padding: 0 0 0 1rem;
+	}
+
+	&.level-4 {
+		padding: 0 0 0 2rem;
+	}
+}

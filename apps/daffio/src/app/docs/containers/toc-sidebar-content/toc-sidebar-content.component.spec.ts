@@ -1,4 +1,3 @@
-
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -14,24 +13,26 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
 
-import { DaffioDocsPackageCardsContainer } from './package-cards.component';
-import { DaffioRoute } from '../../../../core/router/route.type';
+import { DaffioDocsTocSidebarContentContainer } from './toc-sidebar-content.component';
+import { DaffioActiveHeaderService } from '../../../core/dynamic-fragment/service';
+import { DaffioRoute } from '../../../core/router/route.type';
 
-describe('DaffioDocsPackageCardsContainer', () => {
-  let component: DaffioDocsPackageCardsContainer;
-  let fixture: ComponentFixture<DaffioDocsPackageCardsContainer>;
+describe('DaffioDocsTocSidebarContentContainer', () => {
+  let component: DaffioDocsTocSidebarContentContainer;
+  let fixture: ComponentFixture<DaffioDocsTocSidebarContentContainer>;
   let dataSpy: BehaviorSubject<DaffioRoute['data']>;
 
   beforeEach(waitForAsync(() => {
     dataSpy = new BehaviorSubject({});
 
     TestBed.configureTestingModule({
-      declarations: [
-        DaffioDocsPackageCardsContainer,
+      imports: [
+        DaffioDocsTocSidebarContentContainer,
+        RouterTestingModule,
+        NoopAnimationsModule,
       ],
-      imports: [RouterTestingModule,
-        NoopAnimationsModule],
       providers: [
+        DaffioActiveHeaderService,
         {
           provide: ActivatedRoute,
           useValue: jasmine.createSpyObj('ActivatedRoute', [], { data: dataSpy }),
@@ -44,9 +45,8 @@ describe('DaffioDocsPackageCardsContainer', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DaffioDocsPackageCardsContainer);
+    fixture = TestBed.createComponent(DaffioDocsTocSidebarContentContainer);
     component = fixture.componentInstance;
-
     fixture.detectChanges();
   });
 

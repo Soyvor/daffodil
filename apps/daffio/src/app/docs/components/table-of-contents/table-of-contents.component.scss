@@ -6,42 +6,11 @@
 
 .daffio-docs-table-of-contents {
 	max-height: 100vh;
-	overflow: auto;
 	position: sticky;
 	top: calc(var(--daff-sidebar-side-fixed-top-shift) + 96px);
 
 	&__title {
 		font-weight: bold;
 		margin: 0 0 24px;
-	}
-
-	&__links {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
-
-	&__item {
-		display: block;
-		font-size: 1rem;
-		line-height: 1.25rem;
-		text-decoration: none;
-
-		&--level-1 {
-			display: none;
-			padding: 0;
-		}
-
-		&--level-2 {
-			padding: 0;
-		}
-
-		&--level-3 {
-			padding: 0 0 0 16px;
-		}
-
-		&--level-4 {
-			padding: 0 0 0 32px;
-		}
 	}
 }

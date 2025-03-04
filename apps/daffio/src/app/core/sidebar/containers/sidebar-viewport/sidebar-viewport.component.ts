@@ -3,14 +3,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  Injector,
   OnInit,
   Signal,
 } from '@angular/core';
+import {
+  ActivatedRoute,
+  ChildrenOutletContexts,
+  PRIMARY_OUTLET,
+} from '@angular/router';
 import {
   combineLatest,
   map,
   Observable,
   startWith,
+  tap,
 } from 'rxjs';
 
 import {
@@ -22,7 +29,7 @@ import {
   DaffSidebarModeEnum,
 } from '@daffodil/design/sidebar';
 
-import { DaffioSidebarSectionRegistration } from '../../interfaces/section-registration.interface';
+import { DaffioSidebarRegistration } from '../../interfaces/registration.type';
 import { DaffioSidebarService } from '../../services/sidebar.service';
 
 @Component({
@@ -37,11 +44,24 @@ export class DaffioSidebarViewportContainer implements OnInit {
   mode$: Observable<DaffSidebarModeEnum>;
   showSidebarHeader$: Observable<boolean>;
   showSidebarFooter$: Observable<boolean>;
-  component$: Observable<DaffioSidebarSectionRegistration>;
   isBigTablet$: Observable<boolean>;
+  component$: Observable<DaffioSidebarRegistration>;
+  injector = this._injector;
 
   ngOnInit() {
-    this.component$ = this.sidebarService.activeRegistration$;
+    this.component$ = this.sidebarService.activeRegistration$.pipe(
+      tap(() => {
+        const outlet = this.childrenOutletContext.getContext(PRIMARY_OUTLET);
+        this.injector = outlet?.injector
+          ? Injector.create({
+            parent: outlet.injector,
+            providers: [
+              { provide: ActivatedRoute, useValue: outlet.route },
+            ],
+          })
+          : this._injector;
+      }),
+    );
     this.showSidebar = this.sidebarService.isOpen;
     this.mode$ = this.sidebarService.mode$;
     this.isBigTablet$ = this.breakpointObserver.observe(DaffBreakpoints.BIG_TABLET).pipe(
@@ -67,6 +87,8 @@ export class DaffioSidebarViewportContainer implements OnInit {
   constructor(
     private sidebarService: DaffioSidebarService,
     @Inject(SERVER_SAFE_BREAKPOINT_OBSERVER) private breakpointObserver: BreakpointObserver,
+    private childrenOutletContext: ChildrenOutletContexts,
+    private _injector: Injector,
   ) { }
 
   close() {
