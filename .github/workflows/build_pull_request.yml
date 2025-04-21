@@ -5,7 +5,7 @@ on:
     branches:
       - develop
 
-permissions: 
+permissions:
   actions: read
   attestations: read
   checks: read
@@ -24,11 +24,11 @@ jobs:
   build:
     name: ${{ github.event.pull_request.head.repo.full_name == github.repository && 'Build PR' || 'Build PR Fork' }}
     uses: graycoreio/daffodil/.github/workflows/build.yml@develop
-    with: 
+    with:
       cache-mode: 'read-only'
-      ref: ${{ github.event.pull_request.merge_commit_sha }}
+      ref: ${{ github.event.pull_request.head.sha }}
     secrets:
       NX_KEY: ${{ secrets.NX_KEY }}
       AZURE_STORAGE_CONNECTION_STRING: ${{ github.event.pull_request.head.repo.full_name == github.repository && secrets.AZURE_NX_CACHE_READWRITE_CONNECTION_STRING || secrets.AZURE_NX_CACHE_READONLY_CONNECTION_STRING }}
 
-  
+
