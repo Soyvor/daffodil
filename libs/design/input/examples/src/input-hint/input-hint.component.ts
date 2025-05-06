@@ -2,20 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
 
 import {
   DaffFormFieldModule,
+  DaffHintComponent,
   DaffInputModule,
 } from '@daffodil/design';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'input-disabled',
-  templateUrl: './input-disabled.component.html',
+  selector: 'input-hint',
+  templateUrl: './input-hint.component.html',
   styles: [`
     daff-form-field {
       max-width: 320px;
@@ -24,11 +21,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     DaffFormFieldModule,
     DaffInputModule,
+    DaffHintComponent,
   ],
 })
-export class InputDisabledComponent {
-  disabled = new UntypedFormControl({ value : '' , disabled: true });
+export class InputHintComponent {
 }

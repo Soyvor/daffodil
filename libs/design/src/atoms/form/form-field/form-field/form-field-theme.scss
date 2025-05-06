@@ -6,32 +6,44 @@
 	$primary: core.daff-map-get($theme, primary);
 	$secondary: core.daff-map-get($theme, secondary);
 	$tertiary: core.daff-map-get($theme, tertiary);
+	$critical: core.daff-map-get($theme, critical);
 	$base: core.daff-map-get($theme, 'core', 'base');
 	$base-contrast: core.daff-map-get($theme, 'core', 'base-contrast');
 	$neutral: core.daff-map-get($theme, 'core', 'neutral');
+	$type: core.daff-map-get($theme, 'core', 'type');
 
 	.daff-form-field {
 		&__control {
 			background: $base;
-			border: 1px solid theming.daff-illuminate($base, $neutral, 3);
-			color: theming.daff-illuminate($base-contrast, $neutral, 4);
 
-			&:focus {
-				border: 1px solid $base-contrast;
+			@include theming.light($type) {
+				border: 1px solid theming.daff-color($neutral);
+				color: theming.daff-color($neutral);
+			}
+
+			@include theming.dark($type) {
+				border: 1px solid theming.daff-color($neutral, 40);
+				color: theming.daff-color($neutral, 40);
+			}
+
+			&.daff-focused {
+				border: 1px solid theming.daff-color($primary);
+
+				.daff-form-label {
+					color: theming.daff-color($primary);
+				}
 			}
 
 			&.daff-error {
-				border: 1px solid theming.daff-color(theming.$daff-red, 60);
+				border: 1px solid theming.daff-color($critical);
 
-				&:focus {
-					border: 1px solid theming.daff-color(theming.$daff-red, 60);
+				.daff-form-label {
+					color: theming.daff-color($critical);
 				}
 			}
 
 			&.daff-valid {
-				> * {
-					color: $base-contrast;
-				}
+				color: $base-contrast;
 			}
 		}
 	}
