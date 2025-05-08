@@ -67,5 +67,8 @@ import {
   standalone: true,
 })
 export class DaffManageContainerLayoutDirective {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-manage-container-layout') class = true;
 }

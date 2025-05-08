@@ -32,5 +32,8 @@ import {
   standalone: true,
 })
 export class DaffArticleEncapsulatedDirective {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-ae') class = true;
 }

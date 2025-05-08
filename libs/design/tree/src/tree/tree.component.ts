@@ -117,6 +117,9 @@ export class DaffTreeComponent implements OnInit, OnChanges {
 
   constructor(private notifier: DaffTreeNotifierService) {}
 
+  /**
+   * @docs-private
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if(!changes.tree.currentValue) {
       this._tree = undefined;

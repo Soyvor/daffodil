@@ -18,5 +18,8 @@ import { DaffCardBaseDirective } from '../../card-base.directive';
 })
 
 export class DaffStrokedCardComponent extends DaffCardBaseDirective {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-stroked-card') class = true;
 }

@@ -58,22 +58,37 @@ export class DaffNotificationComponent {
 
   @ContentChild(DaffNotificationActionsDirective) _actions: DaffNotificationActionsDirective;
 
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-notification') class = true;
 
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.tabindex') tabindex = '0';
 
   /**
    * Sets role to alert when `status="warn"` or `status="critical"`.
    * Sets role to status on all other instances.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.role') get role() {
     return this.statusDirective.status === DaffStatusEnum.Warn || this.statusDirective.status === DaffStatusEnum.Critical ? 'alert' : 'status';
   };
 
+  /**
+   * @docs-private
+   */
   @HostBinding('class.vertical') get verticalOrientation() {
     return this.orientation === DaffNotificationOrientationEnum.Vertical;
   }
 
+  /**
+   * @docs-private
+   */
   @HostBinding('class.horizontal') get horizontalOrientation() {
     return this.orientation === DaffNotificationOrientationEnum.Horizontal;
   }

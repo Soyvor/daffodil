@@ -119,12 +119,18 @@ export class DaffColorableDirective implements DaffColorable, OnChanges, OnInit 
    */
   defaultColor: DaffPalette;
 
+  /**
+   * @docs-private
+   */
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.color.currentValue) {
       this.color = this.defaultColor;
     }
   }
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     validateColor(this.color);
     if (!this.color) {

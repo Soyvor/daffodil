@@ -34,10 +34,16 @@ export class DaffTabActivatorComponent implements OnInit {
   /**
    * Sets the `role` to tab.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.role') role = 'tab';
 
   /**
    * Sets `aria-selected` to true if the component is selected and false if it's not selected.
+   */
+  /**
+   * @docs-private
    */
   @HostBinding('attr.aria-selected') get ariaSelected() {
     return this.selectableDirective.selected ? true :  false;
@@ -46,10 +52,16 @@ export class DaffTabActivatorComponent implements OnInit {
   /**
    * Sets `tabindex` to `0` if the component is selected and `-1` if it's not selected.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.tabindex') get tabIndex() {
     return this.selectableDirective.selected ? '0' :  '-1';
   }
 
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.aria-controls') ariaControls = '';
 
   constructor(
@@ -65,6 +77,9 @@ export class DaffTabActivatorComponent implements OnInit {
 
   @Input() panelId = '';
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     /**
      * Sets the value of `panelId` to the `ariaControls` property

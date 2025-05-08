@@ -42,6 +42,9 @@ export class DefaultToastComponent implements OnInit {
     });
   }
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     this.update.subscribe(() => {
       console.log('test');

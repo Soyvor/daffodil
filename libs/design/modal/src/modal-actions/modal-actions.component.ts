@@ -11,5 +11,8 @@ import {
   standalone: true,
 })
 export class DaffModalActionsComponent {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-modal-actions') class = true;
 }

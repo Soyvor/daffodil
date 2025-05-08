@@ -94,12 +94,18 @@ export class DaffSizableDirective<T extends DaffSizeAllType> implements DaffSiza
    */
   public defaultSize: T;
 
+  /**
+   * @docs-private
+   */
   ngOnChanges(changes: SimpleChanges) {
     if(!changes.size?.currentValue) {
       this.size = this.defaultSize;
     }
   }
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     if(!this.size) {
       this.size = this.defaultSize;

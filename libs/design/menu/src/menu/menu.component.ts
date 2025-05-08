@@ -31,8 +31,17 @@ import { DaffMenuService } from '../services/menu.service';
   ],
 })
 export class DaffMenuComponent implements AfterContentInit, AfterViewInit {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-menu') class = true;
+  /**
+   * @docs-private
+   */
   @HostBinding('tabindex') tabindex = 0;
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.role') role = 'menu';
 
   private _focusTrap: ConfigurableFocusTrap;
@@ -62,12 +71,18 @@ export class DaffMenuComponent implements AfterContentInit, AfterViewInit {
     });
   }
 
+  /**
+   * @docs-private
+   */
   ngAfterContentInit() {
     this._focusTrap = this._focusTrapFactory.create(
       this._elementRef.nativeElement,
     );
   }
 
+  /**
+   * @docs-private
+   */
   ngAfterViewInit() {
     const focusableChild = (<HTMLElement>this._elementRef.nativeElement.querySelector(
       daffFocusableElementsSelector)

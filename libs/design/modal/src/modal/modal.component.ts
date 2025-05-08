@@ -52,15 +52,24 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
   /**
    * Sets a class of .daff-modal to the host element.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-modal') modalClass = true;
 
   /**
    * Sets the role to dialog.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.role') role = 'dialog';
 
   /**
    * Sets aria-modal to true.
+   */
+  /**
+   * @docs-private
    */
   @HostBinding('attr.aria-modal') ariaModal = true;
 
@@ -70,6 +79,9 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
    * The aria-labelledby for the modal. This is set by the id of
    * {@link DaffModalTitleDirective} when it is used.
    *
+   */
+  /**
+   * @docs-private
    */
   @HostBinding('attr.aria-labelledby') get ariaLabelledBy() {
     return this._ariaLabelledBy;
@@ -113,12 +125,18 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
     this.openDirective.stateless = false;
   }
 
+  /**
+   * @docs-private
+   */
   ngAfterContentInit() {
     this._focusTrap = this._focusTrapFactory.create(
       this.elementRef.nativeElement,
     );
   }
 
+  /**
+   * @docs-private
+   */
   ngAfterViewInit() {
     const focusableChild = (<HTMLElement>this.elementRef.nativeElement.querySelector(
       daffFocusableElementsSelector)
@@ -151,6 +169,9 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
   }
 
   /** Animation hook that controls the entrance and exit animations of the modal. */
+  /**
+   * @docs-private
+   */
   @HostBinding('@fade') get fadeState(): string {
     return getAnimationState(this.openDirective.open);
   }

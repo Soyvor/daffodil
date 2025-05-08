@@ -47,6 +47,9 @@ export class DaffCheckboxControlValueAccessorDirective implements OnInit, Contro
   /**
    * A lifecycle method called when the directive is initialized.
    */
+  /**
+   * @docs-private
+   */
   ngOnInit(): void {
     // See the note about `writeValue` usage.
     this.writeValue(this._control.value);

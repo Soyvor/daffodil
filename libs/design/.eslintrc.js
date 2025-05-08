@@ -44,6 +44,7 @@ module.exports = {
             style: 'camelCase'
           }
         ],
+        'custom-rules/docs-private-hostbinding-lifecycle': 'error',
       }
     },
     {

@@ -12,5 +12,8 @@ import {
   standalone: true,
 })
 export class DaffHintComponent {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-hint') class = true;
 }

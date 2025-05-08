@@ -11,5 +11,8 @@ import {
   standalone: true,
 })
 export class DaffModalContentComponent {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-modal-content') class = true;
 }

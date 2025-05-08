@@ -18,5 +18,8 @@ import { DaffCardBaseDirective } from '../../card-base.directive';
 })
 
 export class DaffRaisedCardComponent extends DaffCardBaseDirective {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-raised-card') class = true;
 }

@@ -12,5 +12,8 @@ import {
   standalone: false,
 })
 export class DaffErrorMessageComponent {
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-error-message') class = true;
 }

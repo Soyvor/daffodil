@@ -13,5 +13,8 @@ import {
 })
 export class DaffSuffixDirective {
 
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-suffix') class = true;
 }

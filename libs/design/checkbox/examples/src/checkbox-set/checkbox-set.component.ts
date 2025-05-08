@@ -34,6 +34,9 @@ export class CheckboxSetComponent implements OnInit {
   checkboxArray = new UntypedFormArray([new UntypedFormControl(), new UntypedFormControl(), new UntypedFormControl()]);
   selectedValues = [];
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     this.checkboxArray.setValue([false, false, false]);
   }

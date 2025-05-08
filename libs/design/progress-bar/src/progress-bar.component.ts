@@ -49,16 +49,31 @@ export class DaffProgressBarComponent {
     return this._indeterminate;
   }
 
+  /**
+   * @docs-private
+   */
   @HostBinding('role') get role() {
     return 'progressbar';
   }
 
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.aria-label') get ariaLabel() {
     return this._indeterminate ? 'loading' : null;
   }
 
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.aria-valuemin') ariaValueMin = '0';
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.aria-valuemax') ariaValueMax = '100';
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.aria-valuenow') get ariaValueNow() {
     return this.percentage;
   }

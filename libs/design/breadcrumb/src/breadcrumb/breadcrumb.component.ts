@@ -47,6 +47,9 @@ export class DaffBreadcrumbComponent implements AfterContentInit {
    */
   @ContentChildren(DaffBreadcrumbItemDirective) breadcrumbItems!: QueryList<DaffBreadcrumbItemDirective>;
 
+  /**
+   * @docs-private
+   */
   ngAfterContentInit() {
     this.updateActiveState();
 

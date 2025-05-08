@@ -77,6 +77,9 @@ export class DaffYoutubePlayerComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustStyle(this.width + ' / ' + this.height);
   }
 
+  /**
+   * @docs-private
+   */
   @HostBinding('style.max-width') get maxWidth(): string {
     return this.width + 'px';
   }

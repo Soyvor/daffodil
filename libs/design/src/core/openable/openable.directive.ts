@@ -117,6 +117,9 @@ export class DaffOpenableDirective implements DaffOpenable, OnChanges {
     this.toggled.emit(state);
   }
 
+  /**
+   * @docs-private
+   */
   ngOnChanges(changes: SimpleChanges) {
     /**
      * Throw an error if open is set in a component that is not stateless

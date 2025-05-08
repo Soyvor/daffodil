@@ -37,6 +37,9 @@ class CheckboxEmbeddedComponent implements OnInit {
 
   selectedValues = [];
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     this.checkboxArray.setValue([false, true, true]);
   }

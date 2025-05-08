@@ -70,10 +70,16 @@ export class DaffTreeItemDirective {
    * You can use this to style your templates if you want to
    * use different designs at different depths.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('style.--depth') depth: number;
 
   /**
    * The CSS class indicating whether or not the tree is `selected`.
+   */
+  /**
+   * @docs-private
    */
   @HostBinding('class.selected') get selectedClass() {
     return this.selected;
@@ -81,6 +87,9 @@ export class DaffTreeItemDirective {
 
   /**
    * The CSS class indicating whether or not the tree is `open`.
+   */
+  /**
+   * @docs-private
    */
   @HostBinding('class.open') openClass = false;
 

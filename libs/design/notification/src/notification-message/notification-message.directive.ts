@@ -10,5 +10,8 @@ import {
 
 export class DaffNotificationMessageDirective {
 
+  /**
+   * @docs-private
+   */
   @HostBinding('class.daff-notification__message') class = true;
 }

@@ -27,6 +27,9 @@ export class DaffModalTitleDirective {
   /**
    * The html `id` of the modal title.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.id') get uniqueId() {
     return this._id;
   }

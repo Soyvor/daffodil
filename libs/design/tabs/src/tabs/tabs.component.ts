@@ -89,6 +89,9 @@ export class DaffTabsComponent implements AfterContentInit, OnInit {
   /**
    * aria-label for the tab.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.aria-label') private externalAriaLabel = null;
 
   /**

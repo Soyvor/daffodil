@@ -25,6 +25,9 @@ import { DaffButtonComponent } from '@daffodil/design/button';
 export class BasicCheckboxComponent implements OnInit {
   checkboxExample = new UntypedFormControl();
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     this.checkboxExample.setValue(true);
   }

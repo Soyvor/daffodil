@@ -38,5 +38,8 @@ export class DaffModalCloseDirective {
   /**
    * Sets the button type attribute to button.
    */
+  /**
+   * @docs-private
+   */
   @HostBinding('attr.type') typeAttribute = 'button';
 }

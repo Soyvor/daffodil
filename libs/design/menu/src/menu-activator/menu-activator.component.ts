@@ -25,6 +25,9 @@ export class DaffMenuActivatorDirective implements OnDestroy {
   private _destroyed$ = new Subject<boolean>();
   private _open: boolean;
 
+  /**
+   * @docs-private
+   */
   @HostBinding('class.open') get openClass() {
     return this._open;
   }

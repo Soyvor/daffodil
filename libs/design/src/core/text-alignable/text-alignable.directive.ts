@@ -87,6 +87,9 @@ export class DaffTextAlignableDirective implements DaffTextAlignable, OnChanges 
    */
   public defaultAlignment: DaffTextAlignment;
 
+  /**
+   * @docs-private
+   */
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.textAlignment?.currentValue) {
       this.textAlignment = this.defaultAlignment;

@@ -7,7 +7,8 @@ module.exports = {
     "eslint-plugin-jsdoc",
     "eslint-plugin-prefer-arrow",
     "@stylistic",
-    "eslint-plugin-unused-imports"
+    "eslint-plugin-unused-imports",
+    "custom-rules",
   ],
   extends: [
     "plugin:@typescript-eslint/recommended",
@@ -343,6 +344,6 @@ module.exports = {
         "message": "Inject `DOCUMENT` from `@angular/common` and access `window` via `document.defaultView`."
       },
     ],
-    "unused-imports/no-unused-imports": "error"
+    "unused-imports/no-unused-imports": "error",
   }
 }

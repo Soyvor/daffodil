@@ -45,6 +45,9 @@ export class DaffRadioControlValueAccessorDirective implements OnInit, ControlVa
     }
   }
 
+  /**
+   * @docs-private
+   */
   ngOnInit(): void {
     this.writeValue(this._control.value);
     this._registry.add(this._control, this);

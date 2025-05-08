@@ -71,6 +71,9 @@ export class DaffQuantityInputComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     this._inputControl.patchValue(this.ngControl.control.value);
     this.setInputDisabled();

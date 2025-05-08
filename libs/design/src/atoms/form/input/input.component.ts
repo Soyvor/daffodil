@@ -63,6 +63,7 @@ export class DaffInputComponent extends DaffFormFieldControl<string> implements 
     super(ngControl);
   }
 
+  /** @docs-private */
   ngOnInit() {
     this.stateChanges = merge(
       this._stateChanges.asObservable(),

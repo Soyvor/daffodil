@@ -58,6 +58,9 @@ export class ToastPositionsComponent implements OnInit {
   horizontalControl: FormControl = new FormControl('right');
   verticalControl: FormControl = new FormControl('top');
 
+  /**
+   * @docs-private
+   */
   ngOnInit() {
     combineLatest([
       this.horizontalControl.valueChanges,
