@@ -13,7 +13,7 @@ import { DaffLoadingIconModule } from '@daffodil/design/loading-icon';
 import { DaffProduct } from '@daffodil/product';
 import {
   DaffProductStateTestingModule,
-  MockDaffBestSellersFacade,
+  MockDaffProductGridFacade,
 } from '@daffodil/product/state/testing';
 import { DaffProductFactory } from '@daffodil/product/testing';
 
@@ -32,7 +32,7 @@ describe('BestSellersComponent', () => {
   let productFactory: DaffProductFactory;
   let component: BestSellersComponent;
   let fixture: ComponentFixture<BestSellersComponent>;
-  let bestSellersFacade: MockDaffBestSellersFacade;
+  let bestSellersFacade: MockDaffProductGridFacade;
   let productGridComponent: MockProductGridComponent;
   let stubProducts: DaffProduct[];
 
@@ -52,12 +52,12 @@ describe('BestSellersComponent', () => {
 
   beforeEach(() => {
     productFactory = TestBed.inject(DaffProductFactory);
-    bestSellersFacade = TestBed.inject(MockDaffBestSellersFacade);
+    bestSellersFacade = TestBed.inject(MockDaffProductGridFacade);
 
     stubProducts = productFactory.createMany(2);
 
     fixture = TestBed.createComponent(BestSellersComponent);
-    bestSellersFacade.bestSellers$.next(stubProducts);
+    bestSellersFacade.products$.next(stubProducts);
     component = fixture.componentInstance;
     fixture.detectChanges();
 

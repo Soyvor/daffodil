@@ -4,10 +4,7 @@ import {
 } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { DocumentNode } from 'graphql';
-import {
-  Observable,
-  of,
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DaffProduct } from '@daffodil/product';
@@ -92,11 +89,5 @@ export class DaffMagentoProductService implements DaffProductServiceInterface {
     }).pipe(
       map(result => this.magentoProductsTransformer.transformManyMagentoProducts(result.data.products.items, this.config.baseMediaUrl)),
     );
-  }
-
-  //todo: add actual getBestSellers apollo call for Magento.
-  //todo: move to a different bestsellers module.
-  getBestSellers(): Observable<DaffProduct[]> {
-    return of(null);
   }
 }
