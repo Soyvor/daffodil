@@ -38,7 +38,7 @@ const updateObjectFromObject = (a: any, b: any): typeof a => ({
 
 export const getRootPackage = (): Promise<PackageJson> => readFile(RELEASE_CONFIG.ROOT_PACKAGE, { encoding: 'utf8' }).then(d => JSON.parse(d));
 
-const updateLeafPackageVersions = async (): Promise<any> => {
+const updateLeafPackageVersions = (transform: (lib: PackageJson, rootPackage: PackageJson) => PackageJson) => async (): Promise<any> => {
   const rootPackage = await getRootPackage();
   await new Promise(resolve =>
     src(RELEASE_CONFIG.DIST + '/*/package.json')
@@ -46,7 +46,7 @@ const updateLeafPackageVersions = async (): Promise<any> => {
         through2.obj((file, _, cb) => {
           if (file.isBuffer()) {
             let data = <PackageJson>JSON.parse(file.contents.toString());
-            data = transfomLeafPackage(data, rootPackage);
+            data = transform(data, rootPackage);
             file.contents = Buffer.from(JSON.stringify(data, null, 2));
           }
           cb(null, file);
@@ -71,6 +71,11 @@ const deleteDevDependencies = (packageObject: PackageJson) => {
  */
 const updatePackageVersion = (lib: PackageJson, rootPackage: PackageJson) => {
   lib.version = rootPackage.version;
+  return lib;
+};
+
+const updatePackageVersionWithTimestamp = (lib: PackageJson, rootPackage: PackageJson) => {
+  lib.version = `${rootPackage.version}-${Date.now()}`;
   return lib;
 };
 
@@ -162,5 +167,9 @@ function transfomLeafPackage(lib: PackageJson, rootPackage: PackageJson) {
 };
 
 export const leafVersion = series(
-  updateLeafPackageVersions,
+  updateLeafPackageVersions(transfomLeafPackage),
+);
+
+export const devVersion = series(
+  updateLeafPackageVersions(updatePackageVersionWithTimestamp),
 );
