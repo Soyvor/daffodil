@@ -20,3 +20,6 @@ yarn add @daffodil/analytics
 
 ## Features
 - ["Opt-in" action tracking](/libs/analytics/guides/configuration.md#configuring-analyzeableactions)
+
+## Drivers
+- [Data Layer](/libs/analytics/guides/drivers.md)

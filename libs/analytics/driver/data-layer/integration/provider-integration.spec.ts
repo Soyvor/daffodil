@@ -15,7 +15,7 @@ import {
 import {
   DaffDataLayerItem,
   provideDaffDataLayerTracker,
-} from '@daffodil/analytics-provider-data-layer';
+} from '@daffodil/analytics/driver/data-layer';
 
 @Injectable({ providedIn: 'root' })
 class FakeService1 implements DaffAnalyticsTrackerClass {
@@ -32,7 +32,7 @@ class FakeService2 implements DaffAnalyticsTrackerClass {
 }
 
 
-describe('@daffodil/analytics-provider-data-layer | Provider Intergration', () => {
+describe('@daffodil/analytics/driver/data-layer | Provider Intergration', () => {
   it('should configure services correctly', () => {
     TestBed.configureTestingModule({
       imports: [
@@ -75,6 +75,7 @@ describe('@daffodil/analytics-provider-data-layer | Provider Intergration', () =
       ],
     });
 
-    expect(TestBed.inject(DaffAnalyticsServices).length).toEqual(1);
+    const services = <any[]>TestBed.inject(DaffAnalyticsServices);
+    expect(services.length).toEqual(1);
   });
 });

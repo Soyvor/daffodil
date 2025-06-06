@@ -19,7 +19,7 @@ export class DaffAnalyticsDataLayer {
   private _window: WindowWithDataLayer | null;
 
   constructor(@Inject(DOCUMENT) private document: any) {
-    this._window = this.document.defaultView;
+    this._window = <WindowWithDataLayer>this.document.defaultView;
   }
 
   push(data: DaffDataLayerItem) {

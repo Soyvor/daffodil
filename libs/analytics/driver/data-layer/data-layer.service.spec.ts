@@ -6,7 +6,7 @@ import {
   WindowWithDataLayer,
 } from './data-layer.service';
 
-describe('@daffodil/analytics-provider-data-layer | DataLayerService', () => {
+describe('@daffodil/analytics/driver/data-layer | DataLayerService', () => {
   let service: DaffAnalyticsDataLayer;
 
   it('should be root injectable', () => {
