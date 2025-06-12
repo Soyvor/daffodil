@@ -1,0 +1,21 @@
+:host {
+	background: none;
+	border: none;
+	box-shadow: none;
+	margin: 0;
+	padding: 0;
+	resize: vertical;
+	min-height: 3.5rem;
+	width: 100%;
+	box-sizing: border-box;
+
+	&:focus {
+		border: none;
+		box-shadow: none;
+		outline: none;
+	}
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
