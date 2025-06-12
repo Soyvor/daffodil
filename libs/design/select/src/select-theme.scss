@@ -1,0 +1,47 @@
+@use 'sass:map';
+@use '../../scss/theming';
+@use '../../scss/core';
+
+// stylelint-disable selector-class-pattern
+@mixin daff-select-theme($theme) {
+	$base: core.daff-map-get($theme, 'core', 'base');
+	$base-contrast: core.daff-map-get($theme, 'core', 'base-contrast');
+	$neutral: core.daff-map-get($theme, 'core', 'neutral');
+
+	$border-color: theming.daff-illuminate($base, $neutral, 3);
+
+	.daff-select {
+		$root: '.daff-select';
+
+		&.disabled {
+			#{$root}__field {
+				color: theming.daff-illuminate($base, $neutral, 5);
+			}
+		}
+
+		&__field {
+			color: $base-contrast;
+
+			&::after {
+				border-color: theming.daff-color($neutral);
+			}
+		}
+
+		&__option {
+			background-color: $base;
+			border-bottom: 1px solid $border-color;
+			border-left: 1px solid $border-color;
+			border-right: 1px solid $border-color;
+			color: $base-contrast;
+
+			&:first-of-type {
+				border-top: 1px solid $border-color;
+			}
+
+			&:hover,
+			&.highlighted {
+				background-color: theming.daff-illuminate($base, $neutral, 1);
+			}
+		}
+	}
+}
