@@ -49,7 +49,15 @@ import { CustomComponent } from './custom.component';
 export class CustomComponentModule { }
 ```
 
-> This method is deprecated. It's recommended to update all custom components to standalone.
+> Deprecation notice: This method is deprecated. It's recommended to update all custom components to standalone.
+
+## Appearances
+Form field supports two `appearances`: `fluid` and `fixed`. It will default to `fluid` if an `appearance` is not specified.
+
+- `fluid`: alternate, stylized UI where the label is placed inside of the form control.
+- `fixed`: corresponds with a traditional style where the label is positioned outside and above the form control.
+
+<design-land-example-viewer-container example="form-field-appearances"></design-land-example-viewer-container>
 
 ## Labels
 Use `<daff-form-label>` to help users understand what information to enter into a form control. Form fields should always have labels.
@@ -61,10 +69,10 @@ Use `<daff-form-label>` to help users understand what information to enter into 
 </daff-form-field>
 ```
 
-> The `DaffFormLabelDirective` (using `daffFormLabel` on `<label>`) is deprecated and will be removed in `v1.0.0`. Use `<daff-form-label>` instead for new implementations.
+> Deprecation notice: The `DaffFormLabelDirective` (using `daffFormLabel` on `<label>`) is deprecated and will be removed in `v1.0.0`. Use `<daff-form-label>` instead for new implementations.
 
 ## Setting a custom ID
-The `id` property allows you to set a custom identifier for the form field. While auto-labelling is supported for native HTML form elements (e.g. `<input>`, `<select>`, and `<textarea>`) to ensure that accessibility is baked into the component, it's recommended to set meaningful, custom IDs that improve accessibility and form management.
+The `id` property allows you to set a custom identifier for the form field. While auto-labelling is supported for native HTML form elements (e.g. `<input>`, `<select>`, and `<textarea>`) to ensure that accessibility is baked into the component, it's recommended to set meaningful, custom IDs for better accessibility and form management.
 
 ```html
 <daff-form-field id="user-email-address">
@@ -73,7 +81,7 @@ The `id` property allows you to set a custom identifier for the form field. Whil
 </daff-form-field>
 ```
 
-When you set a custom `id`, the `<daff-form-label>` gets a `for` attribute that matches the control's `id`.
+> When you provide a custom `id`, the `<daff-form-label>` automatically gets the correct `for` attribute that matches the control's `id`.
 
 ## Hints
 Hints are shown below the form field and are used to provide helpful information that assists users in correctly completing a field.
@@ -110,17 +118,22 @@ Error messages are used to display validation errors. They are shown under the f
 </daff-form-field>
 ```
 
-## Icons
-An icon can be shown on either side of the form control by using the `daffPrefix` and `daffSuffix` selectors.
+## Action
+Use the `[daffFormFieldAction]` directive to add an action element to a form field.
 
-```html
-<daff-form-field>
-  <daff-form-label>Search</daff-form-label>
-  <fa-icon [faIcon]="faSearch" daffPrefix></fa-icon>
-  <input daff-input type="text" />
-  <fa-icon [faIcon]="faArrow" daffSuffix></fa-icon>
-</daff-form-field>
-```
+- Fluid appearance: The action is positioned within the form control's UI.
+- Fixed appearance: The action is positioned adjacent to the form control's UI.
+
+<design-land-example-viewer-container example="form-field-with-action"></design-land-example-viewer-container>
+
+## Prefix and suffix
+Use the `[daffPrefix]` and `[daffSuffix]` directives to display leading or trailing visuals, typically icons, on either side of the form control.
+
+> In a fluid appearance, avoid using suffix alongside an action.
+
+<design-land-example-viewer-container example="form-field-with-prefix"></design-land-example-viewer-container>
+
+<design-land-example-viewer-container example="form-field-with-suffix"></design-land-example-viewer-container>
 
 ## Creating a custom form field control
 In addition to the controls that Daffodil Design provides, you can create your own custom control by using the `DaffFormFieldControl` interface.
