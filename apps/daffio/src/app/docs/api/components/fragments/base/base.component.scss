@@ -1,0 +1,18 @@
+.daffio-docs-api-base-fragment {
+	&__title {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+
+		> * {
+			margin: 0;
+		}
+	}
+
+	&__label-wrapper {
+		display: flex;
+		gap: 0.25rem;
+	}
+}

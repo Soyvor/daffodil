@@ -1,0 +1,20 @@
+<div class="daffio-docs-api-base-fragment__title">
+	@if (child()) {
+		<h3 daffioDocsTocHeader [id]="doc().slug" [content]="doc().name" level="3">{{doc().name}}</h3>
+	} @else {
+		<h1 [attr.id]="doc().slug">{{doc().name}}</h1>
+	}
+	<div class="daffio-docs-api-base-fragment__label-wrapper">
+		@if (!child()) {
+			<daffio-docs-api-item-label [type]="doc().docType">
+				{{ doc().docType }}
+			</daffio-docs-api-item-label>
+		}
+		@if (doc().deprecated) {
+			<daffio-docs-api-item-label type="deprecated">Deprecated</daffio-docs-api-item-label>
+		}
+	</div>
+</div>
+<p [innerHTML]="doc().importExample | safe"></p>
+<div daffioInterceptNavigation [innerHTML]="doc().description | safe"></div>
+<div daffioInterceptNavigation [innerHTML]="doc().sourceApiBlock | safe"></div>

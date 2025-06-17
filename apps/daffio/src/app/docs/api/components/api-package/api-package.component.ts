@@ -11,6 +11,8 @@ import { DAFF_ARTICLE_COMPONENTS } from '@daffodil/design/article';
 import { DaffApiPackageDoc } from '@daffodil/docs-utils';
 
 import { DaffioApiPackageFilterPipe } from './not-packages.pipe';
+import { DaffioDocViewerComponent } from '../../../components/doc-viewer/doc-viewer.component';
+import { DaffioDocsDynamicContent } from '../../../dynamic-content/dynamic-content.type';
 import { DaffioApiListSectionComponent } from '../api-list-section/api-list-section.component';
 
 @Component({
@@ -26,9 +28,10 @@ import { DaffioApiListSectionComponent } from '../api-list-section/api-list-sect
     DaffioApiListSectionComponent,
     DAFF_ARTICLE_COMPONENTS,
     DaffioApiPackageFilterPipe,
+    DaffioDocViewerComponent,
   ],
 })
-export class DaffioApiPackageComponent {
+export class DaffioApiPackageComponent implements DaffioDocsDynamicContent<DaffApiPackageDoc> {
   @HostBinding('class.daffio-api-package') class = true;
 
   /**
