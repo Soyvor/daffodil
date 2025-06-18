@@ -20,11 +20,13 @@ import {
   AfterContentInit,
   AfterViewInit,
   ViewEncapsulation,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import {
   DaffOpenable,
   DaffOpenableDirective,
+  DaffFocusStackService,
 } from '@daffodil/design';
 import { daffFocusableElementsSelector } from '@daffodil/design';
 
@@ -121,6 +123,8 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
     private _focusTrapFactory: ConfigurableFocusTrapFactory,
     private elementRef: ElementRef<HTMLElement>,
     private openDirective: DaffOpenableDirective,
+    private _focusStack: DaffFocusStackService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.openDirective.stateless = false;
   }
@@ -132,6 +136,7 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
     this._focusTrap = this._focusTrapFactory.create(
       this.elementRef.nativeElement,
     );
+    this._focusStack.push();
   }
 
   /**
@@ -186,6 +191,7 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
   animationDone(e: AnimationEvent) {
     this.animationCompleted.emit(e);
     if (e.toState === 'closed') {
+      this._focusStack.pop();
       this.closedAnimationCompleted.emit(e);
     }
   }
@@ -199,6 +205,7 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
    */
   reveal() {
     this.openDirective.reveal();
+    this.changeDetector.markForCheck();
   }
 
   /**
@@ -206,6 +213,7 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
    */
   hide() {
     this.openDirective.hide();
+    this.changeDetector.markForCheck();
   }
 
   /**
@@ -213,5 +221,6 @@ export class DaffModalComponent implements AfterContentInit, AfterViewInit, Daff
    */
   toggle() {
     this.openDirective.toggle();
+    this.changeDetector.markForCheck();
   }
 }

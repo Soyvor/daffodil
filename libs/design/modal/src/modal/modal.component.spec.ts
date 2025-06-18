@@ -17,8 +17,7 @@ import { DaffModalService } from '../service/modal.service';
   template: `
     <div class="custom-modal-component">
       <daff-modal></daff-modal>
-    </div>
-  `,
+    </div>`,
   imports: [
     DaffModalComponent,
   ],
@@ -35,6 +34,7 @@ describe('@daffodil/design/modal | DaffModalComponent', () => {
   let modalDe: DebugElement;
 
   beforeEach(waitForAsync(() => {
+
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -47,7 +47,6 @@ describe('@daffodil/design/modal | DaffModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WrapperComponent);
     wrapper = fixture.componentInstance;
-
     modalDe = fixture.debugElement.query(By.css('daff-modal'));
     modal = modalDe.componentInstance;
     fixture.detectChanges();
