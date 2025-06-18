@@ -9,20 +9,24 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { DaffStatus } from './statusable';
-import { DaffStatusableDirective } from './statusable.directive';
+import {
+  DaffStatus,
+  DaffStatusableDirective,
+} from '@daffodil/design';
 
 @Component({
   template: `
 		<div daffStatusable [status]="status"></div>`,
-  standalone: false,
+  imports: [
+    DaffStatusableDirective,
+  ],
 })
 
 class WrapperComponent {
   status: DaffStatus;
 }
 
-describe('@daffodil/design | DaffStatusableDirective', () => {
+describe('@daffodil/design | DaffStatusableDirective | Usage', () => {
   let wrapper: WrapperComponent;
   let de: DebugElement;
   let fixture: ComponentFixture<WrapperComponent>;
@@ -30,11 +34,8 @@ describe('@daffodil/design | DaffStatusableDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        WrapperComponent,
-      ],
       imports: [
-        DaffStatusableDirective,
+        WrapperComponent,
       ],
     })
       .compileComponents();
