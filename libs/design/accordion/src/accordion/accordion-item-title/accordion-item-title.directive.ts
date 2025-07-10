@@ -4,7 +4,12 @@ import {
 } from '@angular/core';
 
 /**
- * Used to provide a high level overview of the content. It should be wrapped by a `<daff-accordion-item>`.
+ * Used to provide a high level overview of the panel content. It should be wrapped by a `<daff-accordion-item>`.
+ *
+ * @example
+ * ```html
+ * <div daffAccordionItemTitle>Title</div>
+ * ```
  */
 @Directive({
   selector: '[daffAccordionItemTitle]',
