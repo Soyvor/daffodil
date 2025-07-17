@@ -9,21 +9,22 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { DaffListComponent } from './list.component';
+import { DaffNavListComponent } from './nav-list.component';
 
 @Component({
   template: `
-    <daff-list></daff-list>
+    <daff-list [mode]="mode"></daff-list>
+    <daff-nav-list></daff-nav-list>
   `,
   imports: [
-    DaffListComponent,
+    DaffNavListComponent,
   ],
 })
 class WrapperComponent {}
 
-describe('@daffodil/design/list | DaffListComponent', () => {
+describe('@daffodil/design/list | DaffNavListComponent', () => {
   let wrapper: WrapperComponent;
-  let component: DaffListComponent;
+  let component: DaffNavListComponent;
   let de: DebugElement;
   let fixture: ComponentFixture<WrapperComponent>;
 
@@ -39,7 +40,7 @@ describe('@daffodil/design/list | DaffListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WrapperComponent);
     wrapper = fixture.debugElement.componentInstance;
-    de = fixture.debugElement.query(By.css('daff-list'));
+    de = fixture.debugElement.query(By.css('daff-nav-list'));
     component = de.componentInstance;
     fixture.detectChanges();
   });
@@ -48,11 +49,11 @@ describe('@daffodil/design/list | DaffListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add a class of "daff-list" to the host element', () => {
-    expect(de.nativeElement.classList.contains('daff-list')).toBeTruthy();
+  it('should add a class of "daff-nav-list" to the host element', () => {
+    expect(de.nativeElement.classList.contains('daff-nav-list')).toBeTruthy();
   });
 
-  it('should have a role of list', () => {
-    expect(de.nativeElement.getAttribute('role')).toBe('list');
+  it('should have a role of navigation', () => {
+    expect(de.nativeElement.getAttribute('role')).toBe('navigation');
   });
 });

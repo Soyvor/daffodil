@@ -1,0 +1,35 @@
+@use '../../../scss/interactions';
+@use '../list-base' as base;
+
+.daff-nav-list {
+	@include base.daff-list-base();
+
+	.daff-list-item {
+		@include interactions.clickable();
+		text-decoration: none;
+		position: relative;
+
+		&__content {
+			z-index: 2;
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			top: 0;
+			left: 0;
+			opacity: 0;
+			transition: opacity 300ms;
+			z-index: 1;
+		}
+
+		&:hover,
+		&.active {
+			&::after {
+				opacity: 1;
+			}
+		}
+	}
+}
