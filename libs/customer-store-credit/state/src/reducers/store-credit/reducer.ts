@@ -22,7 +22,6 @@ export const daffCustomerStoreCreditReducer = <T extends DaffCustomerStoreCredit
 ): DaffCustomerStoreCreditReducerState => {
   switch (action.type) {
     case DaffCustomerStoreCreditActionTypes.StoreCreditLoadAction:
-    case DaffCustomerStoreCreditActionTypes.StoreCreditLoadAction:
       return daffStartResolution(state);
 
     case DaffCustomerStoreCreditActionTypes.StoreCreditLoadSuccessAction:
