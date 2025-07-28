@@ -494,7 +494,8 @@
             "lintFilePatterns": [
               "apps/design-land/**/*.ts",
               "apps/design-land/**/*.html"
-            ]
+            ],
+            "eslintConfig": "apps/design-land/eslint.config.mjs"
           }
         }
       }
