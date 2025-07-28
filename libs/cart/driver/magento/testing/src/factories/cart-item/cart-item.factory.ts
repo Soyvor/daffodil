@@ -50,8 +50,8 @@ export class MockMagentoCartItem implements MagentoCartItem {
     return (new MagentoMoneyFactory()).create();
   }
 
-  private discounts(number = 2): MagentoDiscount[] {
-    return (new MagentoDiscountFactory()).createMany(number);
+  private discounts(count = 2): MagentoDiscount[] {
+    return (new MagentoDiscountFactory()).createMany(count);
   }
 }
 

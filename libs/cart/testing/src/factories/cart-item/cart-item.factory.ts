@@ -33,8 +33,9 @@ export class DaffMockCartItem implements DaffCartItem {
   _numberOfDiscounts = faker.number.int({ min: 1, max: 2 });
   discounts = this._discounts(this._numberOfDiscounts, Math.floor(this.price / this._numberOfDiscounts));
 
-  private _discounts(number = 2, max = 100): DaffCartItemDiscount[] {
-    return new Array(faker.number.int(number)).fill(null).map(() => ({
+  // eslint-disable-next-line id-blacklist
+  private _discounts(count = 2, max = 100): DaffCartItemDiscount[] {
+    return new Array(faker.number.int(count)).fill(null).map(() => ({
       amount: faker.number.int({ min: 1, max }),
       label: faker.lorem.word(),
     }));
