@@ -1002,7 +1002,8 @@
             "lintFilePatterns": [
               "libs/driver/**/*.ts",
               "libs/driver/**/*.html"
-            ]
+            ],
+            "eslintConfig": "libs/driver/eslint.config.mjs"
           }
         }
       }
