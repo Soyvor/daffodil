@@ -32,7 +32,6 @@ export class DaffRelatedProductsMagentoDriverModule {
         {
           provide: DAFF_PRODUCT_MAGENTO_EXTRA_PRODUCT_PAGE_FRAGMENTS,
           multi: true,
-          // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
           useFactory() {
             return magentoRelatedProductsFragment(inject(DAFF_PRODUCT_MAGENTO_EXTRA_PRODUCT_PREVIEW_FRAGMENTS));
           },
@@ -40,7 +39,6 @@ export class DaffRelatedProductsMagentoDriverModule {
         {
           provide: DAFF_PRODUCT_MAGENTO_EXTRA_PRODUCT_RESPONSE_TRANSFORMS,
           multi: true,
-          // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
           useFactory() {
             const transformerService = inject(DaffMagentoRelatedProductsTransformers);
             return (
