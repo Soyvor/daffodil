@@ -197,7 +197,8 @@
             "lintFilePatterns": [
               "apps/demo/**/*.ts",
               "apps/demo/**/*.html"
-            ]
+            ],
+            "eslintConfig": "apps/demo/eslint.config.mjs"
           }
         }
       }

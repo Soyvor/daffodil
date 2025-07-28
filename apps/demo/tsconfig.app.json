@@ -4,7 +4,8 @@
     "outDir": "../../dist/apps/demo",
     "types": [],
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
   },
   "exclude": [
     "src/test.ts",
