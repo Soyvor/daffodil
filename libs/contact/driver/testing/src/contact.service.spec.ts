@@ -22,8 +22,8 @@ describe('The DaffTestingContactService', () => {
   describe('when sending', () => {
     it('should return an observable of DaffContactResponse', () => {
 
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
+      const testScheduler = new TestScheduler((actual, expectation) => {
+        expect(actual).toEqual(expectation);
       });
 
       const payload = { email: 'email@email.edu' };
