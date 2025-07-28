@@ -6,6 +6,7 @@ import { MagentoOrderShipmentTracking } from '@daffodil/order/driver/magento/2-4
 
 export class MockOrderShipmentTracking implements MagentoOrderShipmentTracking {
   __typename = <const>'ShipmentTracking';
+  // eslint-disable-next-line id-blacklist
   number = faker.string.alphanumeric(16);
   carrier = faker.lorem.word();
   title = faker.lorem.word();

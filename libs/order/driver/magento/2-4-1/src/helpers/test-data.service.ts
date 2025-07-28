@@ -215,7 +215,7 @@ export class MagentoOrderTestDataFactory {
       updated_at: null,
       email: mockDaffOrderAddress.email,
     });
-    mockDaffOrder.id = mockDaffOrder.id;
+
     mockDaffOrderAddress.order_id = mockDaffOrder.id;
     mockDaffOrderPayment.order_id = mockDaffOrder.id;
     mockDaffOrderItem.order_id = mockDaffOrder.id;
@@ -349,6 +349,7 @@ export class MagentoOrderTestDataFactory {
     };
     const mockMagentoOrderShipmentTracking: MagentoOrderShipmentTracking = {
       __typename: 'ShipmentTracking',
+      // eslint-disable-next-line id-blacklist
       number: mockDaffOrderShipmentTracking.tracking_number,
       carrier: mockDaffOrderShipmentTracking.carrier,
       title: mockDaffOrderShipmentTracking.title,
@@ -480,6 +481,7 @@ export class MagentoOrderTestDataFactory {
     const mockMagentoOrder: MagentoOrder = {
       __typename: 'GraycoreGuestOrder',
       id: mockDaffOrder.id,
+      // eslint-disable-next-line id-blacklist
       number: mockDaffOrder.id,
       order_date: mockDaffOrder.created_at,
       carrier: mockDaffOrderShipment.carrier,

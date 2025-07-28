@@ -12,6 +12,7 @@ export interface MagentoOrder {
   order_date: string;
   status: string;
   carrier: string;
+  // eslint-disable-next-line id-blacklist
   number: string;
   shipping_method: string;
   email: string;

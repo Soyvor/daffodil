@@ -15,6 +15,7 @@ import { MagentoOrderTotalFactory } from './order-total.factory';
 export class MockOrder implements MagentoOrder {
   __typename = <const>'GraycoreGuestOrder';
   id = faker.string.uuid();
+  // eslint-disable-next-line id-blacklist
   number = faker.string.uuid();
   email = faker.internet.email();
   order_date = faker.date.past().toString();
