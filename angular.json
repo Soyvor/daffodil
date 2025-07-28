@@ -354,7 +354,8 @@
             "lintFilePatterns": [
               "apps/daffio/**/*.ts",
               "apps/daffio/**/*.html"
-            ]
+            ],
+            "eslintConfig": "apps/daffio/eslint.config.mjs"
           }
         },
         "serve-ssr": {

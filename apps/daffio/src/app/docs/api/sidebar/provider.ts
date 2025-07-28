@@ -1,4 +1,4 @@
-import { DaffioApiNavListSidebarContainer } from './component';
+import { DaffioApiNavListSidebarContainer } from './nav-list-sidebar.component';
 import { DaffioSidebarRegistration } from '../../../core/sidebar/interfaces/registration.type';
 import { DAFFIO_DOCS_LIST_SIDEBAR_REGISTRATION } from '../../containers/docs-list/sidebar.provider';
 
