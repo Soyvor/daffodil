@@ -13,7 +13,7 @@ import { DaffRadioSetComponent } from '../radio-set/radio-set.component';
 
 let radioUniqueId = 0;
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'daff-radio',
   templateUrl: './radio.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

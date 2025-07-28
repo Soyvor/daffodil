@@ -112,11 +112,11 @@ describe('DaffSidebarComponent | Defaults', () => {
   });
 
   it('should set the default side to left', () => {
-    expect(de.classes['left']).toBeTrue();
+    expect(de.classes.left).toBeTrue();
   });
 
   it('should set the default mode to side', () => {
-    expect(de.classes['side']).toBeTrue();
+    expect(de.classes.side).toBeTrue();
   });
 
   it('should set the default width to 240px', () => {
@@ -181,7 +181,7 @@ describe('DaffSidebarComponent | Usage', () => {
         wrapper.side = 'left';
         fixture.detectChanges();
 
-        expect(de.classes['left']).toBeTrue();
+        expect(de.classes.left).toBeTrue();
       });
     });
 
@@ -190,7 +190,7 @@ describe('DaffSidebarComponent | Usage', () => {
         wrapper.side = 'right';
         fixture.detectChanges();
 
-        expect(de.classes['right']).toBeTrue();
+        expect(de.classes.right).toBeTrue();
       });
     });
   });

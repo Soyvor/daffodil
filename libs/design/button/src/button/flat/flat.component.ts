@@ -26,7 +26,7 @@ import { DaffButtonBaseDirective } from '../button-base.directive';
  */
 /* eslint-disable quote-props */
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'button[daff-flat-button]' + ',' + 'a[daff-flat-button]',
   templateUrl: '../button-base.component.html',
   styleUrl: './flat.component.scss',

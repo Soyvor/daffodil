@@ -44,7 +44,7 @@ let uniqueGalleryId = 0;
   styleUrls: ['./media-gallery.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     { provide: DAFF_MEDIA_GALLERY_TOKEN, useExisting: DaffMediaGalleryComponent },
   ],
   hostDirectives: [

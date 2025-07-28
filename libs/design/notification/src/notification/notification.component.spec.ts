@@ -81,7 +81,7 @@ describe('@daffodil/design/notification | DaffNotificationComponent', () => {
 
     describe('when dismissible is set to false', () => {
       it('should not add a class of "dismissible" to the host element', () => {
-        expect(de.classes['dismissible']).toBeUndefined();
+        expect(de.classes.dismissible).toBeUndefined();
       });
 
       it('should not show the close icon button', () => {
@@ -96,7 +96,7 @@ describe('@daffodil/design/notification | DaffNotificationComponent', () => {
       });
 
       it('should add a class of "dismissible" to the host element', () => {
-        expect(de.classes['dismissible']).toBeTrue();
+        expect(de.classes.dismissible).toBeTrue();
       });
 
       it('should show the close icon button', () => {
@@ -106,7 +106,7 @@ describe('@daffodil/design/notification | DaffNotificationComponent', () => {
   });
 
   it('should set the tabindex to 0', () => {
-    expect(de.attributes['tabindex']).toEqual('0');
+    expect(de.attributes.tabindex).toEqual('0');
   });
 
   describe('setting the role', () => {
@@ -150,7 +150,7 @@ describe('@daffodil/design/notification | DaffNotificationComponent', () => {
         wrapper.orientation = 'horizontal';
         fixture.detectChanges();
 
-        expect(de.classes['horizontal']).toBeTrue();
+        expect(de.classes.horizontal).toBeTrue();
       });
     });
 
@@ -159,7 +159,7 @@ describe('@daffodil/design/notification | DaffNotificationComponent', () => {
         wrapper.orientation = 'vertical';
         fixture.detectChanges();
 
-        expect(de.classes['vertical']).toBeTrue();
+        expect(de.classes.vertical).toBeTrue();
       });
     });
   });

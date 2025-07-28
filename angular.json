@@ -1046,7 +1046,8 @@
             "lintFilePatterns": [
               "libs/design/**/*.ts",
               "libs/design/**/*.html"
-            ]
+            ],
+            "eslintConfig": "libs/design/eslint.config.mjs"
           }
         }
       }

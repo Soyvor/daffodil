@@ -29,7 +29,7 @@ import {
   styleUrl: './input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     { provide: DaffFormFieldControl, useExisting: DaffInputComponent },
   ],
   host: {

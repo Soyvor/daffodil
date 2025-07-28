@@ -26,7 +26,6 @@ import { DaffButtonBaseDirective } from '../button-base.directive';
  */
 /* eslint-disable quote-props */
 @Component({
-  /* eslint-disable-next-line @angular-eslint/component-selector */
   selector: 'button[daff-underline-button]' + ',' + 'a[daff-underline-button]',
   templateUrl: '../button-base.component.html',
   styleUrl: './underline.component.scss',

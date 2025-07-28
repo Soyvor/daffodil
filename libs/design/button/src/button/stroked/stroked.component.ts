@@ -27,7 +27,7 @@ import { DaffButtonBaseDirective } from '../button-base.directive';
  */
 /* eslint-disable quote-props */
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'button[daff-stroked-button]' + ',' + 'a[daff-stroked-button]',
   templateUrl: '../button-base.component.html',
   styleUrl: './stroked.component.scss',

@@ -24,7 +24,7 @@ import { DaffQuantitySelectComponent } from './quantity-select/quantity-select.c
   providers: [
     {
       provide: DaffFormFieldControl,
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
       useExisting: DaffQuantityFieldComponent,
     },
   ],

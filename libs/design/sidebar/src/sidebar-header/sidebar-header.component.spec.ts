@@ -65,7 +65,7 @@ describe('@daffodil/design/sidebar | DaffSidebarHeaderComponent', () => {
     });
 
     it('should add a class of "dismissible" to the host element', () => {
-      expect(de.classes['dismissible']).toBeTrue();
+      expect(de.classes.dismissible).toBeTrue();
     });
 
     it('should show the close icon button', () => {

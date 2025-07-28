@@ -84,14 +84,14 @@ describe('@daffodil/design | DaffFormFieldComponent | Usage', () => {
       wrapper.appearance = 'fluid';
       fixture.detectChanges();
 
-      expect(de.classes['fluid']).toBeTrue();
+      expect(de.classes.fluid).toBeTrue();
     });
 
     it('should add a class of "fixed" to the host element when appearance="fixed"', () => {
       wrapper.appearance = 'fixed';
       fixture.detectChanges();
 
-      expect(de.classes['fixed']).toBeTrue();
+      expect(de.classes.fixed).toBeTrue();
     });
   });
 

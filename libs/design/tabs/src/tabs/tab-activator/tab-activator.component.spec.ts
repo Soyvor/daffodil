@@ -108,7 +108,7 @@ describe('@daffodil/design/tabs | DaffTabActivatorComponent', () => {
     });
 
     it('should assign the `tabActivatorId` value to the `id` attribute', () => {
-      expect(de.attributes['id']).toBe(component.tabActivatorId);
+      expect(de.attributes.id).toBe(component.tabActivatorId);
     });
   });
 

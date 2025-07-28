@@ -93,6 +93,6 @@ describe('DaffTextSnippetComponent', () => {
     wrapper.condensed = true;
     fixture.detectChanges();
 
-    expect(componentDe.query(By.css('.daff-text-snippet__content')).classes['condensed']).toBeTruthy();
+    expect(componentDe.query(By.css('.daff-text-snippet__content')).classes.condensed).toBeTruthy();
   });
 });

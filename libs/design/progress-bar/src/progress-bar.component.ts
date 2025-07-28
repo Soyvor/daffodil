@@ -15,7 +15,7 @@ import { DaffColorableDirective } from '@daffodil/design';
 
 import { daffProgressBarAnimation } from './animation/progress-bar-animation';
 
-export const clamp = (number: number, min: number, max: number) => Math.min(Math.max(number, min), max);
+export const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
 @Component({
   selector: 'daff-progress-bar',

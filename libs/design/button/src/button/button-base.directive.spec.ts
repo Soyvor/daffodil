@@ -115,7 +115,7 @@ describe('@daffodil/design/button | DaffButtonBaseDirective', () => {
     });
 
     it('should set disabled to true', () => {
-      expect(de.nativeElement.attributes['disabled'].value).toEqual('true');
+      expect(de.nativeElement.attributes.disabled.value).toEqual('true');
     });
 
     it('should set aria-disabled to true', () => {
@@ -123,7 +123,7 @@ describe('@daffodil/design/button | DaffButtonBaseDirective', () => {
     });
 
     it('should set the tabindex to -1', () => {
-      expect(de.nativeElement.attributes['tabindex'].value).toEqual('-1');
+      expect(de.nativeElement.attributes.tabindex.value).toEqual('-1');
     });
   });
 });

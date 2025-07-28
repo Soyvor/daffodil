@@ -30,7 +30,7 @@ import {
   styleUrls: ['./textarea.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     { provide: DaffFormFieldControl, useExisting: DaffTextareaComponent },
   ],
 })

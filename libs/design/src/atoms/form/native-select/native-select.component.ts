@@ -21,7 +21,7 @@ import { DaffFormFieldControl } from '../form-field/form-field-control';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     { provide: DaffFormFieldControl, useExisting: DaffNativeSelectComponent },
   ],
   standalone: false,

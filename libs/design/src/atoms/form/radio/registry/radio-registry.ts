@@ -29,7 +29,7 @@ export class DaffRadioRegistry {
    */
   remove(accessor: DaffRadioControlValueAccessorDirective) {
     for (let i = this._accessors.length - 1; i >= 0; --i) {
-      if (this._accessors[i]['accessor'] === accessor) {
+      if (this._accessors[i].accessor === accessor) {
         this._accessors.splice(i, 1);
         return;
       }
@@ -42,8 +42,8 @@ export class DaffRadioRegistry {
    */
   select(accessor: DaffRadioControlValueAccessorDirective) {
     this._accessors.forEach((c) => {
-      if (this._isSameGroup(c, accessor) && c['accessor'] !== accessor) {
-        c['accessor'].fireDeselect();
+      if (this._isSameGroup(c, accessor) && c.accessor !== accessor) {
+        c.accessor.fireDeselect();
       }
     });
   }
@@ -51,10 +51,10 @@ export class DaffRadioRegistry {
   private _isSameGroup(
     controlPair: ControlAccessorPair,
     accessor: DaffRadioControlValueAccessorDirective): boolean {
-    if (!controlPair['control'].control) {
+    if (!controlPair.control.control) {
       return false;
     }
-    return controlPair['control'].control.parent === accessor._control.control.parent
-      && controlPair['accessor'].name === accessor.name;
+    return controlPair.control.control.parent === accessor._control.control.parent
+      && controlPair.accessor.name === accessor.name;
   }
 }

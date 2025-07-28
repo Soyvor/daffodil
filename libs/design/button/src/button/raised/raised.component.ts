@@ -28,7 +28,7 @@ import { DaffButtonBaseDirective } from '../button-base.directive';
  * ```
  */
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'button[daff-raised-button]' + ',' + 'a[daff-raised-button]',
   templateUrl: '../button-base.component.html',
   styleUrl: './raised.component.scss',

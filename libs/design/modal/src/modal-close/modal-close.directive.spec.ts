@@ -51,6 +51,6 @@ describe('@daffodil/design/modal | DaffModalCloseDirective', () => {
   });
 
   it('should set the type to button', () => {
-    expect(de.attributes['type']).toBe('button');
+    expect(de.attributes.type).toBe('button');
   });
 });

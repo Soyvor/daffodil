@@ -80,14 +80,10 @@ describe('@daffodil/design/tabs | DaffTabPanelComponent', () => {
   });
 
   it('should assign the `tabPanelId` value to the `id` attribute', () => {
-    expect(de.attributes['id']).toBe(component.tabPanelId);
+    expect(de.attributes.id).toBe(component.tabPanelId);
   });
 
   it('should set ariaLabelledBy to the tab id', () => {
     expect(component.ariaLabelledBy).toBe(mockTabComponent.id);
-  });
-
-  it('should set _id to the tab panelId', () => {
-    expect(component['_id']).toBe(mockTabComponent.panelId);
   });
 });

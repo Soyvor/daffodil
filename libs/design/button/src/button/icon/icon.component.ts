@@ -22,7 +22,7 @@ import { DaffButtonBaseDirective } from '../button-base.directive';
  */
 /* eslint-disable quote-props */
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'button[daff-icon-button]' + ',' + 'a[daff-icon-button]',
   templateUrl: '../button-base.component.html',
   styleUrl: './icon.component.scss',

@@ -73,7 +73,7 @@ let daffSelectOtionsId = 0;
     },
   ],
   providers: [
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     { provide: DaffFormFieldControl, useExisting: DaffSelectComponent },
   ],
   imports: [
