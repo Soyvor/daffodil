@@ -14,6 +14,7 @@ export interface MagentoCustomerOrder {
   order_date: string;
   status: string;
   carrier?: string;
+  // eslint-disable-next-line id-blacklist
   number: string;
   shipping_method?: string;
   items?: MagentoOrderItem[];

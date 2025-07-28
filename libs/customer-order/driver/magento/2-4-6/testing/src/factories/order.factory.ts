@@ -20,6 +20,7 @@ export class MockMagentoCustomerOrder implements MagentoCustomerOrder {
   order_date = faker.date.past().toString();
   status = faker.lorem.word();
   carrier = faker.lorem.word();
+  // eslint-disable-next-line id-blacklist
   number = faker.string.uuid();
   shipping_method = faker.lorem.word();
   total = this.totalFactory.create({
