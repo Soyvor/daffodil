@@ -2,14 +2,10 @@
   "name": "@daffodil/eslint-config",
   "version": "0.0.0-PLACEHOLDER",
   "description": "Eslint shareable config for Angular projects using the Daffodil team's in-house style.",
-  "main": "./index.js",
+  "type": "module",
+  "main": "index.mjs",
   "peerDependencies": {
-    "@angular-eslint/eslint-plugin": "0.0.0-PLACEHOLDER",
-    "@angular-eslint/eslint-plugin-template": "0.0.0-PLACEHOLDER",
-    "@angular-eslint/template-parser": "0.0.0-PLACEHOLDER",
-    "@stylistic/eslint-plugin": "^2.7.2",
-    "@typescript-eslint/eslint-plugin": "0.0.0-PLACEHOLDER",
-    "@typescript-eslint/parser": "0.0.0-PLACEHOLDER",
+    "@stylistic/eslint-plugin": "0.0.0-PLACEHOLDER",
     "eslint": "0.0.0-PLACEHOLDER",
     "eslint-plugin-import": "0.0.0-PLACEHOLDER",
     "eslint-plugin-jasmine": "0.0.0-PLACEHOLDER",
@@ -19,9 +15,13 @@
     "eslint-plugin-prefer-arrow": "0.0.0-PLACEHOLDER",
     "eslint-plugin-unused-imports": "0.0.0-PLACEHOLDER"
   },
+  "optionalDependencies": {
+    "angular-eslint": "0.0.0-PLACEHOLDER",
+    "typescript-eslint": "0.0.0-PLACEHOLDER"
+  },
   "scripts": {
     "publish": "cd ../../../dist/eslint-config; npm publish --access=public",
-    "build": "shx mkdir -p ../../../dist/eslint-config && shx cp -r . ../../../dist/eslint-config"
+    "build": "rm -rf ../../../dist/eslint-config && shx mkdir -p ../../../dist/eslint-config && shx cp -r . ../../../dist/eslint-config"
   },
   "nx": {
     "targets": {

@@ -1,0 +1,12 @@
+import { defineConfig, globalIgnores } from "eslint/config";
+import { angularEslintConfig, baseEslintConfig, jestEslintConfig, typescriptEslintConfig } from './tools/eslint/config/index.mjs';
+
+export default defineConfig([
+  globalIgnores([
+    "node_modules"
+  ]),
+  baseEslintConfig,
+  typescriptEslintConfig,
+  angularEslintConfig,
+  jestEslintConfig
+]);
