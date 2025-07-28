@@ -17,7 +17,7 @@ export const indexerFactory = <T extends Record<string, any> = Record<string, an
   (doc: T) => Object.keys(doc)
     .filter((key) => fields.includes(key) || childIndexers[key])
     .reduce((acc, key) => {
-      if (doc.hasOwnProperty(key)) {
+      if (Object.hasOwn(doc, key)) {
         if (childIndexers[key]) {
           const { doc: indexedDoc, extraIndices } = childIndexers[key]?.(doc[key]);
           (<any>acc.doc)[key] = indexedDoc;

@@ -12,7 +12,7 @@ export const serializeFactory = <T extends Record<string, any> = Record<string, 
   (doc: T) => Object.keys(doc)
     .filter((key) => fields.includes(key) || childSerializers[key])
     .reduce((acc, key) => {
-      if (doc.hasOwnProperty(key)) {
+      if (Object.hasOwn(doc,key)) {
         (<any>acc)[key] = childSerializers[key]?.(doc[key]) || doc[key];
       }
       return acc;
