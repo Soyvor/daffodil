@@ -3,20 +3,20 @@
  * This function will fail if the given number has more than 16 significant figures or
  * the value of the number is greater than 10^11
  *
- * @param number
+ * @param value
  */
-export function daffPrecision(number: number): number {
+export function daffPrecision(value: number): number {
   let p = 1;
   if(
-    number === undefined ||
-      number === null ||
-      Number.isNaN(number) ||
-      number === Infinity ||
-      number === -Infinity
+    value === undefined ||
+      value === null ||
+      Number.isNaN(value) ||
+      value === Infinity ||
+      value === -Infinity
   ) {
     return p;
   }
-  while (Math.round(number * p) / p !== number) {
+  while (Math.round(value * p) / p !== value) {
     p *= 10;
     if(p >= 1e11){
       break;
@@ -41,7 +41,7 @@ export function daffAdd(...numbers: number[]): number {
   }
   const precision = Math.max(...numbers.map(daffPrecision));
   return numbers.slice(1).reduce(
-    (acc, number) => acc + Math.round(number*precision),
+    (acc, value) => acc + Math.round(value*precision),
     Math.round(numbers[0]*precision),
   ) / precision;
 }
@@ -62,7 +62,7 @@ export function daffSubtract(...numbers: number[]): number {
   }
   const precision = Math.max(...numbers.map(daffPrecision));
   return numbers.slice(1).reduce(
-    (acc, number) => acc - Math.round(number*precision),
+    (acc, value) => acc - Math.round(value*precision),
     Math.round(numbers[0]*precision),
   ) / precision;
 }
@@ -84,7 +84,7 @@ export function daffMultiply(...numbers: number[]): number {
 
   const precision = Math.max(...numbers.map(daffPrecision));
   return numbers.reduce(
-    (acc, number) => acc * Math.round(number*precision),
+    (acc, value) => acc * Math.round(value*precision),
     1,
   ) / Math.pow(precision, numbers.length);
 }
@@ -109,7 +109,7 @@ export function daffDivide(...numbers: number[]): number {
 
   const precision = Math.max(...numbers.map(daffPrecision));
   return numbers.slice(1).reduce(
-    (acc, number) => acc / Math.round(number*precision),
+    (acc, value) => acc / Math.round(value*precision),
     Math.round(numbers[0]*precision),
   ) * Math.pow(precision, numbers.length - 2);
 }
