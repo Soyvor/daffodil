@@ -1125,7 +1125,8 @@
             "lintFilePatterns": [
               "libs/theme-switch/**/*.ts",
               "libs/theme-switch/**/*.html"
-            ]
+            ],
+            "eslintConfig": "libs/theme-switch/eslint.config.mjs"
           }
         }
       }
