@@ -2,11 +2,13 @@ import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  HostListener,
   Inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+
+import { debounce } from '@daffodil/core';
 
 @Component({
   selector: 'daffio-docs-scroll-to-top',
@@ -16,15 +18,21 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
   imports: [
     FaIconComponent,
   ],
+  host: {
+    '(document:scroll)': 'onScroll()',
+  },
 })
 
 export class DaffioDocsScrollToTopComponent {
   showButton = false;
   faArrowUp = faArrowUp;
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
-  @HostListener('document:scroll')
+  @debounce(100)
   onScroll() {
     const currentScrollPosition = this.document.documentElement.scrollTop || this.document.body.scrollTop;
 
@@ -33,10 +41,14 @@ export class DaffioDocsScrollToTopComponent {
     } else {
       this.showButton = false;
     }
+
+    this.cdr.markForCheck();
   }
 
   scrollToTop() {
     this.document.documentElement.scrollTop = 0;
     this.document.body.scrollTop = 0;
+
+    this.showButton = false;
   }
 }
