@@ -6,12 +6,19 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   OnInit,
+  Input,
+  HostBinding,
+  booleanAttribute,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import {
+  NgControl,
+  Validators,
+} from '@angular/forms';
 import {
   merge,
   of,
   map,
+  tap,
 } from 'rxjs';
 
 import {
@@ -44,12 +51,53 @@ export class DaffInputComponent extends DaffFormFieldControl<string> implements 
   /** @docs-private */
   controlType = 'native-input';
 
-  /** @docs-private */
+  /**
+   * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
+   */
   focused = false;
 
   private get _id() {
     return this.formField?.id;
   };
+
+  /**
+   * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
+   */
+  @Input({ transform: booleanAttribute }) disabled = false;
+
+  /**
+   * @docs-private
+   */
+  @HostBinding('disabled') get disabledAttribute() {
+    return this.disabled || null;
+  }
+
+
+  private _required = false;
+
+  /**
+   * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
+   */
+  @Input({ transform: booleanAttribute })
+  get required(): boolean {
+    return this.ngControl?.control?.hasValidator(Validators.required) ?? this._required;
+  }
+  set required(value: boolean) {
+    this._required = value;
+  }
+
+  /**
+   * @docs-private
+   */
+  @HostBinding('required') get requiredAttribute() {
+    return this.required || null;
+  }
 
   /**
    * @docs-private
@@ -97,6 +145,7 @@ export class DaffInputComponent extends DaffFormFieldControl<string> implements 
       this.ngControl ? this.ngControl.statusChanges : of(undefined),
     ).pipe(
       map(() => this.state),
+      tap((state) => this.disabled = state.disabled),
     );
   }
 

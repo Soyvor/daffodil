@@ -7,12 +7,18 @@ import {
   ChangeDetectionStrategy,
   HostBinding,
   OnInit,
+  Input,
+  booleanAttribute,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import {
+  NgControl,
+  Validators,
+} from '@angular/forms';
 import {
   map,
   merge,
   of,
+  tap,
 } from 'rxjs';
 
 import {
@@ -63,6 +69,42 @@ export class DaffTextareaComponent extends DaffFormFieldControl<string> implemen
   /**
    * @docs-private
    */
+  @HostBinding('disabled') get disabledAttribute() {
+    return this.disabled || null;
+  }
+
+  /**
+   * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
+   */
+  @Input({ transform: booleanAttribute }) disabled = false;
+
+  private _required = false;
+
+  /**
+   * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
+   */
+  @Input({ transform: booleanAttribute })
+  get required(): boolean {
+    return this.ngControl?.control?.hasValidator(Validators.required) ?? this._required;
+  }
+  set required(value: boolean) {
+    this._required = value;
+  }
+
+  /**
+   * @docs-private
+   */
+  @HostBinding('required') get requiredAttribute() {
+    return this.required || null;
+  }
+
+  /**
+   * @docs-private
+   */
   @HostListener('focus') focus() {
     this.focused = true;
     this.emitState();
@@ -107,6 +149,7 @@ export class DaffTextareaComponent extends DaffFormFieldControl<string> implemen
       this.ngControl ? this.ngControl.statusChanges : of(undefined),
     ).pipe(
       map(() => this.state),
+      tap((state) => this.disabled = state.disabled),
     );
   }
 

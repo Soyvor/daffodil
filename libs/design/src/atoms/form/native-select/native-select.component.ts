@@ -46,6 +46,19 @@ export class DaffNativeSelectComponent extends DaffFormFieldControl<string | num
 
   /**
    * @docs-private
+   *
+   * TODO: Update functionality to match other control during refactor.
+   */
+  disabled = false;
+
+  /**
+   * @docs-private
+   * TODO: Update functionality to match other control during refactor.
+   */
+  required = false;
+
+  /**
+   * @docs-private
    */
   @HostListener('focus') focus() {
     this.focused = true;

@@ -66,7 +66,19 @@ export class DaffQuantityFieldComponent extends DaffFormFieldControl<number> imp
     return !!(this.input?.focused || this.select?.focused);
   }
 
+  /**
+   * @docs-private
+   *
+   * TODO: Update functionality to match other control during refactor.
+   */
   disabled = false;
+
+  /**
+   * @docs-private
+   * TODO: Update functionality to match other control during refactor.
+   */
+  required = false;
+
   private _quantity = 1;
   private _inputHasBeenShown = false;
 
