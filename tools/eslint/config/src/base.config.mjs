@@ -1,9 +1,9 @@
-import { defineConfig } from "eslint/config";
+import { defineConfig } from 'eslint/config';
 import eslint from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import stylisticPlugin from '@stylistic/eslint-plugin'
-import unusedImportsPlugin from "eslint-plugin-unused-imports";
+import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import modulesNewLinePlugin from 'eslint-plugin-modules-newlines';
 
 export const baseEslintConfig = defineConfig([
