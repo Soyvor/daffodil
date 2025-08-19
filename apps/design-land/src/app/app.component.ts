@@ -29,6 +29,7 @@ import { QUANTITY_FIELD_EXAMPLES } from '@daffodil/design/quantity-field/example
 import { RADIO_EXAMPLES } from '@daffodil/design/radio/examples';
 import { SELECT_EXAMPLES } from '@daffodil/design/select/examples';
 import { SIDEBAR_EXAMPLES } from '@daffodil/design/sidebar/examples';
+import { STICKY_EXAMPLES } from '@daffodil/design/sticky/examples';
 import { SWITCH_EXAMPLES } from '@daffodil/design/switch/examples';
 import { TABS_EXAMPLES } from '@daffodil/design/tabs/examples';
 import { TEXTAREA_EXAMPLES } from '@daffodil/design/textarea/examples';
@@ -74,6 +75,7 @@ export class DesignLandAppComponent {
       ...INPUT_EXAMPLES,
       ...FORM_FIELD_EXAMPLES,
       ...SIDEBAR_EXAMPLES,
+      ...STICKY_EXAMPLES,
       ...SWITCH_EXAMPLES,
       ...TOAST_EXAMPLES,
       ...TEXTAREA_EXAMPLES,
