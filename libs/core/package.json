@@ -40,7 +40,8 @@
     "@ngrx/store": "0.0.0-PLACEHOLDER",
     "angular-in-memory-web-api": "0.0.0-PLACEHOLDER",
     "apollo-angular": "0.0.0-PLACEHOLDER",
-    "@faker-js/faker": "0.0.0-PLACEHOLDER"
+    "@faker-js/faker": "0.0.0-PLACEHOLDER",
+    "enforce-unique": "0.0.0-PLACEHOLDER"
   },
   "devDependencies": {
     "@daffodil/jasmine": "0.0.0-PLACEHOLDER"
