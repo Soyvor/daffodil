@@ -3,7 +3,10 @@ import {
   Inject,
   Injectable,
 } from '@angular/core';
-import { InMemoryBackendConfig } from 'angular-in-memory-web-api';
+import {
+  InMemoryBackendConfig,
+  InMemoryBackendConfigArgs,
+} from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -24,13 +27,11 @@ import { DaffInMemoryProductResponseTransform } from '../interfaces/public_api';
  * @inheritdoc
  * @Param HttpClient
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DaffInMemoryProductService extends DaffInMemoryDriverBase implements DaffProductServiceInterface {
   constructor(
     private http: HttpClient,
-    config: InMemoryBackendConfig,
+    @Inject(InMemoryBackendConfig) config: InMemoryBackendConfigArgs,
     @Inject(DAFF_PRODUCT_IN_MEMORY_PRODUCT_RESPONSE_TRANSFORM) private transform: DaffInMemoryProductResponseTransform,
   ) {
     super(config, DAFF_PRODUCT_IN_MEMORY_COLLECTION_NAME);
