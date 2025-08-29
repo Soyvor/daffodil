@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+} from '@angular/core';
 import {
   InMemoryDbService,
   RequestInfo,
@@ -10,7 +13,9 @@ import {
 
 import { DaffCart } from '@daffodil/cart';
 import {
+  DAFF_IN_MEMORY_DRIVER_CONFIG,
   DaffInMemoryBackendDelegate,
+  DaffInMemoryDriverConfig,
   DaffInMemoryMultiRouteableBackend,
 } from '@daffodil/driver/in-memory';
 
@@ -69,6 +74,7 @@ export class DaffInMemoryBackendCartRootService extends DaffInMemoryBackendDeleg
     cartShippingMethodsService: DaffInMemoryBackendCartShippingMethodsService,
     cartPaymentService: DaffInMemoryBackendCartPaymentService,
     cartShippingInformationService: DaffInMemoryBackendCartShippingInformationService,
+    @Inject(DAFF_IN_MEMORY_DRIVER_CONFIG) private _config: DaffInMemoryDriverConfig,
   ) {
     super([
       cartService,
@@ -82,7 +88,7 @@ export class DaffInMemoryBackendCartRootService extends DaffInMemoryBackendDeleg
       cartShippingMethodsService,
       cartPaymentService,
       cartShippingInformationService,
-    ]);
+    ], _config);
   }
 
   protected override delegateRequest(reqInfo: RequestInfo, method): Observable<any> {
