@@ -18,6 +18,10 @@ import { DAFF_IN_MEMORY_BACKENDS } from './backends.token';
 import { DaffInMemoryDataServiceInterface } from './data-service.type';
 import { DaffInMemoryBackendDelegate } from './delegate.class';
 import { DaffInMemoryBackendInterface } from './type';
+import {
+  DAFF_IN_MEMORY_DRIVER_CONFIG,
+  DaffInMemoryDriverConfig,
+} from '../public_api';
 
 /**
  * An in-memory backend that automatically delegates requests to backends provided to {@link DAFF_IN_MEMORY_BACKENDS}.
@@ -30,8 +34,9 @@ import { DaffInMemoryBackendInterface } from './type';
 export class DaffInMemoryRootBackend extends DaffInMemoryBackendDelegate implements DaffInMemoryDataServiceInterface, InMemoryDbService {
   constructor(
     @Inject(DAFF_IN_MEMORY_BACKENDS) private _backends: Array<DaffInMemoryBackendInterface>,
+    @Inject(DAFF_IN_MEMORY_DRIVER_CONFIG) private _config: DaffInMemoryDriverConfig,
   ) {
-    super(_backends);
+    super(_backends, _config);
   }
 
   createDb(reqInfo?: RequestInfo) {

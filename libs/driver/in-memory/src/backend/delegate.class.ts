@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 
 import { DaffInMemoryDataServiceInterface } from './data-service.type';
 import { DaffInMemoryRouteableBackend } from './routeable.type';
+import { DaffInMemoryDriverConfig } from '../public_api';
 
 enum Method {
   GET = 'get',
@@ -20,21 +21,30 @@ enum Method {
  * @inheritdoc
  */
 export class DaffInMemoryBackendDelegate implements DaffInMemoryDataServiceInterface {
+
   constructor(
     protected backends: Array<DaffInMemoryRouteableBackend>,
+    protected config: DaffInMemoryDriverConfig,
   ) {}
 
   protected delegateRequest(reqInfo: RequestInfo, method: Method): Observable<any> {
     const backend = this.backends.find((b) => 'collectionName' in b ? b.collectionName === reqInfo.collectionName : b.canHandle(reqInfo.collectionName));
     const request = backend?.[method];
-    return request
+
+    if(request) {
       // allow child backends to return nully values
       // which will fall back to default request behavior (https://github.com/angular/angular/tree/main/packages/misc/angular-in-memory-web-api#http-request-handling)
-      ? request.call(backend, reqInfo)
-      : reqInfo.utils.createResponse$(() => ({
+      return request.call(backend, reqInfo);
+    }
+
+    if(!this.config.passThroughUnknownRequests) {
+      return reqInfo.utils.createResponse$(() => ({
         status: STATUS.NOT_FOUND,
         statusText: `Backend ${reqInfo.collectionName} not found or does not support the ${method} request method`,
       }));
+    }
+
+    return undefined;
   }
 
   get?(reqInfo: RequestInfo): Observable<any> {

@@ -3,6 +3,7 @@ import { STATUS } from 'angular-in-memory-web-api';
 import {
   DaffInMemoryBackendInterface,
   DaffInMemoryDataServiceInterface,
+  DAFF_IN_MEMORY_DRIVER_CONFIG_DEFAULT,
 } from '@daffodil/driver/in-memory';
 
 import { DaffInMemoryBackendDelegate } from './delegate.class';
@@ -25,7 +26,7 @@ describe('@daffodil/driver/in-memory | DaffInMemoryRootBackend', () => {
         collectionName: 'c',
       }),
     ];
-    service = new DaffInMemoryBackendDelegate(backends);
+    service = new DaffInMemoryBackendDelegate(backends, DAFF_IN_MEMORY_DRIVER_CONFIG_DEFAULT);
   });
 
   // eslint-disable-next-line guard-for-in
