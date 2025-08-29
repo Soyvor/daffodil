@@ -29,6 +29,7 @@ export class DaffProductInMemoryDriverModule {
     return {
       ngModule: DaffProductInMemoryDriverModule,
       providers: [
+        DaffInMemoryProductService,
         provideDaffProductDriver(DaffInMemoryProductService),
         provideDaffProductExtraFactoryTypes(DaffDefaultProductFactory),
         provideDaffInMemoryBackends(DaffInMemoryBackendProductService),
