@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/spec",
+    "module": "commonjs",
+    "target": "es2022",
+    "types": [
+      "jasmine",
+      "node"
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}

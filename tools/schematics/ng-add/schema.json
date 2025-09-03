@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "DaffodilNgAdd",
+  "title": "Daffodil ng-add Options Schema",
+  "type": "object",
+  "description": "Adds Daffodil commerce demo to an existing Angular project",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project to add Daffodil to",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "skipPackageJson": {
+      "type": "boolean",
+      "description": "Skip updating package.json dependencies",
+      "default": false
+    }
+  }
+}
