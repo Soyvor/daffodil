@@ -1,0 +1,21 @@
+<h3>
+  <span class="status-indicator" [class.status-connected]="driver.status === 'connected'" [class.status-disconnected]="driver.status === 'disconnected'"></span>
+  {{ driver.name }}
+</h3>
+<div class="driver-controls">
+  <div class="driver-select">
+    <label>Current Driver:</label>
+    <select [value]="selectedDriver" (change)="onDriverChange($event)">
+      @for (availableDriver of driver.availableDrivers; track availableDriver) {
+        <option [value]="availableDriver">
+          {{ availableDriver }}
+        </option>
+      }
+    </select>
+  </div>
+  <div class="quick-actions">
+    <button class="quick-btn primary" (click)="onApplyChanges()">Apply Changes</button>
+    <button class="quick-btn" (click)="onResetToDefault()">Reset to Default</button>
+    <button class="quick-btn" (click)="onTestConnection()">Test Connection</button>
+  </div>
+</div>

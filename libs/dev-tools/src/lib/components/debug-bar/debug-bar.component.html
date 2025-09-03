@@ -1,0 +1,37 @@
+<div class="debug-bar" id="debugBar">
+  <div class="debug-bar-header" (click)="toggleDebugBar()">
+    <div class="debug-bar-title">
+      <img src="https://next.daff.io/assets/appicons/icon-96x96.png" width="36" height="36" alt="Daffodil">
+      Daffodil Developer Tools
+    </div>
+    <div class="debug-bar-actions">
+      <button class="hide-btn" (click)="hideDebugBar($event)">Hide</button>
+      <div class="debug-bar-toggle">Click to expand/collapse • Ctrl+Shift+F12 to hide/show</div>
+    </div>
+  </div>
+
+  <div class="debug-bar-content">
+    @if (configService && drivers.length > 0) {
+      @for (driver of drivers; track driver.name) {
+        <daff-driver-section 
+          [driver]="driver"
+          (applyChanges)="onApplyChanges($event)"
+          (resetToDefault)="onResetToDefault($event)"
+          (testConnection)="onTestConnection($event)">
+        </daff-driver-section>
+      }
+    } @else {
+      <div class="debug-bar-empty-state">
+        <div class="empty-state-icon">🔧</div>
+        <div class="empty-state-title">No Debug Configurations Available</div>
+        <div class="empty-state-message">
+          @if (!configService) {
+            Configure dev tools using <code>provideDaffDevTools()</code> to see driver configurations.
+          } @else {
+            No drivers have been configured yet. Add drivers using <code>withDriverConfig()</code>.
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

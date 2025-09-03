@@ -1,0 +1,31 @@
+{
+  "name": "@daffodil/dev-tools",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Developer tools for Daffodil e-commerce framework",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/graycoreio/daffodil"
+  },
+  "author": "Graycore LLC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/graycoreio/daffodil/issues"
+  },
+  "scripts": {
+    "build": "ng build dev-tools --configuration production",
+    "lint": "cd ../.. && ng lint dev-tools",
+    "lint:fix": "npm run lint -- --fix",
+    "pack": "cd ../../dist/dev-tools && rm -f *.tgz && npm pack",
+    "publish": "cd ../../dist/dev-tools && npm publish --access=public",
+    "test": "ng test dev-tools --watch=false --browsers=ChromeHeadless"
+  },
+  "publishConfig": {
+    "directory": "../../dist/libs/dev-tools"
+  },
+  "homepage": "https://github.com/graycoreio/daffodil",
+  "peerDependencies": {
+    "@angular/common": "0.0.0-PLACEHOLDER",
+    "@angular/core": "0.0.0-PLACEHOLDER"
+  },
+  "sideEffects": false
+}

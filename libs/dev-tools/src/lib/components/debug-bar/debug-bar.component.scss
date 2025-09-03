@@ -1,0 +1,121 @@
+:host {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+:host.collapsed {
+  transform: translateY(calc(100% - 60px));
+}
+
+:host.hidden {
+  transform: translateY(100%);
+}
+
+.debug-bar {
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.debug-bar-header {
+  padding: 12px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.debug-bar-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #dd0031;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.debug-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hide-btn {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  color: #757575;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hide-btn:hover {
+  background: #eeeeee;
+  border-color: #bdbdbd;
+}
+
+.debug-bar-toggle {
+  font-size: 12px;
+  color: #757575;
+  font-weight: 400;
+}
+
+.debug-bar-content {
+  padding: 16px 24px;
+  display: flex;
+  gap: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fafafa;
+}
+
+.debug-bar-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 24px;
+  color: #757575;
+}
+
+.empty-state-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.empty-state-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #424242;
+}
+
+.empty-state-message {
+  font-size: 12px;
+  line-height: 1.4;
+  max-width: 400px;
+}
+
+.empty-state-message code {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 11px;
+  color: #dd0031;
+}
+

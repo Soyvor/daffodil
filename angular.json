@@ -2238,6 +2238,47 @@
           }
         }
       }
+    },
+    "dev-tools": {
+      "root": "libs/dev-tools",
+      "sourceRoot": "libs/dev-tools/src",
+      "prefix": "daff",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "libs/dev-tools/ng-package.json",
+            "tsConfig": "libs/dev-tools/tsconfig.lib.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/dev-tools/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/dev-tools/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/dev-tools/src/test.ts",
+            "tsConfig": "libs/dev-tools/tsconfig.spec.json",
+            "karmaConfig": "libs/dev-tools/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/dev-tools/**/*.ts",
+              "libs/dev-tools/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {
