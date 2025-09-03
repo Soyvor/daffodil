@@ -1,0 +1,22 @@
+{
+  "name": "@daffodil/router-store",
+  "version": "0.0.0-PLACEHOLDER",
+  "peerDependencies": {
+    "@angular/common": "0.0.0-PLACEHOLDER",
+    "@angular/core": "0.0.0-PLACEHOLDER",
+    "@daffodil/core": "0.0.0-PLACEHOLDER",
+    "@ngrx/entity": "0.0.0-PLACEHOLDER",
+    "@ngrx/router-store": "0.0.0-PLACEHOLDER"
+  },
+  "scripts": {
+    "build": "ng build router-store --configuration production",
+    "lint": "cd ../.. && ng lint router-store",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "ng test router-store --watch=false --browsers=ChromeHeadless",
+    "publish": "cd ../../dist/router-store && npm publish --access=public"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
