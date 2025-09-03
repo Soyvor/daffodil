@@ -1,5 +1,6 @@
 export { DaffMagentoProductService } from './product.service';
 export { DaffProductMagentoDriverModule } from './product-driver.module';
+export { provideDaffProductMagentoDriver } from './provider';
 
 export * from './queries/public_api';
 export * from './transforms/public_api';
