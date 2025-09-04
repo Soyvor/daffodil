@@ -7,6 +7,9 @@
   "include-v-in-tag": true,
   "pull-request-title-pattern": "chore: release ${version}",
   "changelog-path": "docs/CHANGELOG.md",
+  "extra-files": [
+    "tools/schematics/ng-add/generators/version.ts"
+  ],
   "packages": {
     ".": {
       "release-type": "node"
