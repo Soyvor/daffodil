@@ -7,10 +7,7 @@ import {
   DaffDevToolsConfig,
   DaffDriverConfig,
 } from '../interfaces/driver-config.interface';
-import {
-  DAFF_DEV_TOOLS_CONFIG,
-  DaffDevToolsConfigService,
-} from '../services/dev-tools-config.service';
+import { DAFF_DEV_TOOLS_CONFIG } from '../tokens/config';
 
 /**
  * Feature interface for driver configuration

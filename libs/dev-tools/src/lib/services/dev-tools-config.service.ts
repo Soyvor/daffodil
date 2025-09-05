@@ -1,6 +1,5 @@
 import {
   Injectable,
-  InjectionToken,
   Inject,
 } from '@angular/core';
 import {
@@ -13,11 +12,7 @@ import {
   DaffDriverConfig,
   DaffDevToolsConfig,
 } from '../interfaces/driver-config.interface';
-
-/**
- * Injection token for dev tools configuration
- */
-export const DAFF_DEV_TOOLS_CONFIG = new InjectionToken<DaffDevToolsConfig>('DAFF_DEV_TOOLS_CONFIG');
+import { DAFF_DEV_TOOLS_CONFIG } from '../tokens/config';
 
 /**
  * Service for managing dev tools configuration and driver registrations
