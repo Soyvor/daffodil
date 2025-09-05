@@ -86,4 +86,94 @@ describe('ng-add schematic - standalone apps', () => {
     // Module file should not be created
     expect(tree.exists('/projects/test-app/src/app/app.module.ts')).toBe(false);
   });
+
+  it('should configure provideDaffDevTools with correct structure', async () => {
+    const tree = await runner.runSchematic('ng-add', defaultOptions, standaloneAppTree);
+    const appConfigContent = tree.readContent('/projects/test-app/src/app/app.config.ts');
+
+    expect(appConfigContent).toContain('provideDaffDevTools({');
+    expect(appConfigContent).toContain('withDriverConfig');
+    expect(appConfigContent).toContain('name: \'@daffodil/product/driver\'');
+    expect(appConfigContent).toContain('status: \'connected\'');
+    expect(appConfigContent).toContain('currentDriver: \'in-memory\'');
+  });
+
+  it('should configure all driver types with correct properties', async () => {
+    const tree = await runner.runSchematic('ng-add', defaultOptions, standaloneAppTree);
+    const appConfigContent = tree.readContent('/projects/test-app/src/app/app.config.ts');
+
+    // In-Memory Driver
+    expect(appConfigContent).toContain('id: \'in-memory\'');
+    expect(appConfigContent).toContain('name: \'In-Memory Driver\'');
+
+    // Fake Store Driver
+    expect(appConfigContent).toContain('id: \'fake\'');
+    expect(appConfigContent).toContain('name: \'fakestoreapi.com Driver\'');
+
+    // Magento Driver with properties
+    expect(appConfigContent).toContain('id: \'magento\'');
+    expect(appConfigContent).toContain('name: \'Magento Driver\'');
+    expect(appConfigContent).toContain('baseUrl');
+    expect(appConfigContent).toContain('https://www.mymagentostore.com/graphql');
+    expect(appConfigContent).toContain('storeCode');
+    expect(appConfigContent).toContain('defaultValue: \'default\'');
+
+    // Shopify Driver (disabled)
+    expect(appConfigContent).toContain('id: \'shopify\'');
+    expect(appConfigContent).toContain('name: \'Shopify Driver (Coming soon!)\'');
+    expect(appConfigContent).toContain('disabled: true');
+    expect(appConfigContent).toContain('https://myshop.myshopify.com/api/2025-07/graphql.json');
+  });
+
+  it('should include all required imports without syntax errors', async () => {
+    const tree = await runner.runSchematic('ng-add', defaultOptions, standaloneAppTree);
+    const appConfigContent = tree.readContent('/projects/test-app/src/app/app.config.ts');
+
+    // Verify specific import statements are properly formed
+    expect(appConfigContent).toContain('import { ApplicationConfig, provideZoneChangeDetection } from \'@angular/core\';');
+    expect(appConfigContent).toContain('import { provideHttpClient } from \'@angular/common/http\';');
+    expect(appConfigContent).toContain('import { provideDaffDevTools } from \'@daffodil/dev-tools\';');
+    expect(appConfigContent).toContain('import { withDriverConfig } from \'@daffodil/dev-tools\';');
+    expect(appConfigContent).toContain('DEMO_MAGENTO_ENDPOINT_SWITCH');
+
+    // Verify no malformed imports (no duplicate Map, Driver, etc.)
+    expect(appConfigContent).not.toContain('Map, Map, Map');
+    expect(appConfigContent).not.toContain('Driver,');
+    expect(appConfigContent).not.toContain('from;'); // Incomplete import statements
+  });
+
+  it('should generate properly formatted provider configuration', async () => {
+    const tree = await runner.runSchematic('ng-add', defaultOptions, standaloneAppTree);
+    const appConfigContent = tree.readContent('/projects/test-app/src/app/app.config.ts');
+
+    // Verify proper line breaks and formatting
+    expect(appConfigContent).toContain('provideDaffDevTools({');
+    expect(appConfigContent).toContain('startCollapsed: false');
+    expect(appConfigContent).toContain('withDriverConfig({ ');
+    expect(appConfigContent).toContain('name: \'@daffodil/product/driver\'');
+    expect(appConfigContent).toContain('availableDrivers: [');
+
+    // Verify proper closing brackets and parentheses
+    expect(appConfigContent).toContain('})');
+    expect(appConfigContent).toContain('      )');
+
+    // Ensure no malformed concatenation
+    expect(appConfigContent).not.toContain('}),provideDaffDevTools'); // No missing spaces
+    expect(appConfigContent).not.toContain('})withDriverConfig'); // No missing commas
+  });
+
+  it('should generate valid TypeScript syntax', async () => {
+    const tree = await runner.runSchematic('ng-add', defaultOptions, standaloneAppTree);
+    const appConfigContent = tree.readContent('/projects/test-app/src/app/app.config.ts');
+
+    // Basic syntax validation - these would cause TypeScript compilation errors
+    expect(appConfigContent).not.toContain(',,'); // No double commas
+    expect(appConfigContent).not.toContain('}}'); // No double closing braces without content
+    expect(appConfigContent).not.toContain('))'); // No double closing parentheses without content
+
+    // Verify export statement is properly formed
+    expect(appConfigContent).toContain('export const appConfig: ApplicationConfig = {');
+    expect(appConfigContent).toMatch(/providers:\s*\[/); // providers array properly opened
+    expect(appConfigContent).toMatch(/\]\s*};$/m); // providers array and config properly closed
+  });
 });

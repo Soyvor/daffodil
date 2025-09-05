@@ -148,6 +148,14 @@ export function addProvidersToStandaloneApp(tree: Tree, project: any, providers:
       }
     }
 
+    // Add DEMO_MAGENTO_ENDPOINT_SWITCH import when using provideMagentoDriver
+    if (provider.includes('DEMO_MAGENTO_ENDPOINT_SWITCH')) {
+      const endpointChange = insertImport(source, configPath, 'DEMO_MAGENTO_ENDPOINT_SWITCH', './daff/product/drivers/demo/magento/endpoint-switch.token');
+      if (endpointChange instanceof InsertChange) {
+        importChanges.push(endpointChange);
+      }
+    }
+
     // Add importProvidersFrom import for modules used as providers
     if (provider.includes('Module')) {
       const importProvidersChange = insertImport(source, configPath, 'importProvidersFrom', '@angular/core');
@@ -275,9 +283,10 @@ function getPackageForProvider(providerName: string): string {
 }
 
 function extractProviderNames(provider: string): string[] {
-  // Extract all function names from provider calls
+  // Extract only provider function names (functions starting with 'provide' or 'with')
   // Handles cases like "provideDaffDevTools({}, withDriverConfig({...}))"
-  const functionRegex = /([a-zA-Z][a-zA-Z0-9_]*)\s*\(/g;
+  // Avoids matching constructor calls like "new Map()" within configuration objects
+  const functionRegex = /\b((?:provide|with)[a-zA-Z0-9_]*)\s*\(/g;
   const matches: string[] = [];
   let match;
 

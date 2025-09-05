@@ -70,12 +70,27 @@ describe('ng-add schematic - module-based apps', () => {
       expect(appModuleContent).toContain('provideDaffProductDriver(DynamicSwitchDriverService)');
     });
 
-    it('should create template files', async () => {
+    it('should generate properly formatted providers without syntax errors', async () => {
       const tree = await runner.runSchematic('ng-add', defaultOptions, appTree);
+      const appModuleContent = tree.readContent('/projects/test-app/src/app/app.module.ts');
 
-      // Check if environment template is created
-      expect(tree.exists('/projects/test-app/src/environments/environment.ts')).toBe(true);
+      // Verify no malformed provider strings
+      expect(appModuleContent).not.toContain('Map, Map, Map');
+      expect(appModuleContent).not.toContain('Driver,');
+      expect(appModuleContent).not.toContain(',,'); // No double commas
+      
+      // Verify proper formatting of complex provider
+      expect(appModuleContent).toContain('provideDaffDevTools({');
+      expect(appModuleContent).toContain('startCollapsed: false');
+      expect(appModuleContent).toContain('withDriverConfig({');
+      
+      // Verify all driver configurations are properly structured
+      expect(appModuleContent).toContain('id: \'in-memory\'');
+      expect(appModuleContent).toContain('id: \'magento\'');
+      expect(appModuleContent).toContain('id: \'shopify\'');
+      expect(appModuleContent).toContain('disabled: true');
     });
+
   });
 
   describe('with skipPackageJson option', () => {

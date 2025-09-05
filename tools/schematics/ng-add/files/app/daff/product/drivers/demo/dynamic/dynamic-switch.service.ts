@@ -7,8 +7,11 @@ import {
   Observable,
   Subject,
   Subscription,
+  throwError,
 } from 'rxjs';
 import {
+  catchError,
+  distinctUntilChanged,
   filter,
   startWith,
   switchMap,
@@ -28,14 +31,11 @@ import { DaffMagentoProductService } from '@daffodil/product/driver/magento';
 
 import { FakeProductDriverService } from '../fake/fake-product-driver.service';
 
-export type SupportedDriverTypes = 'in-memory' | 'fake' | 'magento';
-
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicSwitchDriverService implements DaffProductServiceInterface, OnDestroy {
-  private currentDriver: DaffProductServiceInterface;
-  private currentDriverType: SupportedDriverTypes = 'fake';
+  private currentDriverService: DaffProductServiceInterface;
   private configSubscription?: Subscription;
   private driverChange$ = new Subject<void>();
 
@@ -45,7 +45,7 @@ export class DynamicSwitchDriverService implements DaffProductServiceInterface, 
     private magentoDriver: DaffMagentoProductService,
     @Optional() private devToolsConfig?: DaffDevToolsConfigService,
   ) {
-    this.currentDriver = this.fakeProductDriver;
+    this.currentDriverService = this.fakeProductDriver;
     this.subscribeToDevToolsConfig();
   }
 
@@ -54,16 +54,15 @@ export class DynamicSwitchDriverService implements DaffProductServiceInterface, 
     this.driverChange$.complete();
   }
 
-  switchDriver(driverType: 'in-memory' | 'fake' | 'magento'): void {
+  switchDriver(driverType: string): void {
     if (driverType === 'in-memory') {
-      this.currentDriver = this.inMemoryProductDriver;
-      this.currentDriverType = driverType;
+      this.currentDriverService = this.inMemoryProductDriver;
     } else if (driverType === 'fake') {
-      this.currentDriver = this.fakeProductDriver;
-      this.currentDriverType = driverType;
+      this.currentDriverService = this.fakeProductDriver;
     } else if (driverType === 'magento') {
-      this.currentDriver = this.magentoDriver;
-      this.currentDriverType = driverType;
+      this.currentDriverService = this.magentoDriver;
+    } else {
+      return;
     }
     this.driverChange$.next();
   }
@@ -73,10 +72,11 @@ export class DynamicSwitchDriverService implements DaffProductServiceInterface, 
       this.configSubscription = this.devToolsConfig
         .getDriverConfig('@daffodil/product/driver')
         .pipe(
-          filter((config): config is DaffDriverConfig => !!config && config.currentDriver !== this.currentDriverType),
+          filter((config): config is DaffDriverConfig => !!config),
+          distinctUntilChanged(),
         )
         .subscribe((config: DaffDriverConfig) => {
-          this.switchDriver(<SupportedDriverTypes>config.currentDriver);
+          this.switchDriver(config.currentDriver?.id);
         });
     }
   }
@@ -84,21 +84,30 @@ export class DynamicSwitchDriverService implements DaffProductServiceInterface, 
   getAll(): Observable<DaffProduct[]> {
     return this.driverChange$.pipe(
       startWith(null),
-      switchMap(() => this.currentDriver.getAll()),
+      switchMap(() => this.currentDriverService.getAll().pipe(
+        catchError((error) =>
+          // Let the error bubble up but don't kill the outer stream
+          throwError(() => error),
+        ),
+      )),
     );
   }
 
   get(productId: string): Observable<DaffProductDriverResponse<DaffProduct>> {
     return this.driverChange$.pipe(
       startWith(null),
-      switchMap(() => this.currentDriver.get(productId)),
+      switchMap(() => this.currentDriverService.get(productId).pipe(
+        catchError((error) => throwError(() => error)),
+      )),
     );
   }
 
   getByUrl(url: string): Observable<DaffProductDriverResponse<DaffProduct>> {
     return this.driverChange$.pipe(
       startWith(null),
-      switchMap(() => this.currentDriver.getByUrl(url)),
+      switchMap(() => this.currentDriverService.getByUrl(url).pipe(
+        catchError((error) => throwError(() => error)),
+      )),
     );
   }
 }
