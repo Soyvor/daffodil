@@ -1,5 +1,8 @@
 import { inject } from '@angular/core';
-import { ApolloLink } from '@apollo/client/core';
+import {
+  ApolloLink,
+  UriFunction,
+} from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 
 /**
@@ -8,7 +11,7 @@ import { HttpLink } from 'apollo-angular/http';
  * @param url - The Shopify Storefront API endpoint URL for GraphQL requests.
  * @returns An ApolloLink instance configured with the provided URL.
  */
-export function createHttpLink(url: string): ApolloLink {
+export function createHttpLink(url: string | UriFunction): ApolloLink {
   const httpLink = inject(HttpLink);
   return httpLink.create({ uri: url });
 }

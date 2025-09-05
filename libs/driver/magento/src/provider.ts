@@ -1,9 +1,14 @@
-import { Provider } from '@angular/core';
+import {
+  inject,
+  InjectionToken,
+  Provider,
+} from '@angular/core';
 import {
   from,
   InMemoryCache,
   PossibleTypesMap,
   TypePolicies,
+  UriFunction,
 } from '@apollo/client/core';
 import { provideApollo } from 'apollo-angular';
 
@@ -22,18 +27,18 @@ export interface DaffMagentoDriverConfig {
 /**
  * Sets up the Magento Daffodil driver configuration for Magento's GraphQl API.
  *
- * Under the hood, this is an Apollo Client configuration.
+ * Under the hood, this creates an Apollo Client configuration.
  *
- * @param domain - The Magento store domain (e.g. "https://www.my-store.com/graphql")
+ * @param endpoint - The Magento store domain (e.g. "https://www.my-store.com/graphql") or an injection token for a string or function that returns a string
  */
-export function provideMagentoDriver(endpoint: string, options: DaffMagentoDriverConfig = {
+export function provideMagentoDriver(endpoint: string | InjectionToken<string | UriFunction>, options: DaffMagentoDriverConfig = {
   possibleTypes: MAGENTO_POSSIBLE_TYPES,
   typePolicies,
 }): Provider[] {
   return [
     provideApollo(() => ({
       link: from([
-        createHttpLink(endpoint),
+        createHttpLink(typeof endpoint === 'string' ? endpoint : inject(endpoint)),
       ]),
       cache: new InMemoryCache({ typePolicies: options.typePolicies, possibleTypes: options.possibleTypes }),
     })),
