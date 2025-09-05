@@ -9,6 +9,8 @@ import {
   DaffDevToolsConfig,
   DaffDriverConfig,
 } from '../interfaces/driver-config.interface';
+import { DaffDevToolsSelectedDriver } from '../interfaces/selected-driver';
+import { DaffDevToolsConfigService } from '../services/dev-tools-config.service';
 import { DAFF_DEV_TOOLS_CONFIG } from '../tokens/config';
 
 /**
@@ -27,20 +29,39 @@ export interface DaffDevToolsDriverConfigFeature {
 /**
  * Helper function to create a driver configuration feature
  */
-export function withDriverConfig(driverConfig: DaffDriverConfig): DaffDevToolsDriverConfigFeature {
+export const withDriverConfig = (driverConfig: Omit<DaffDriverConfig, 'currentDriver'> & { currentDriver?: string  }): DaffDevToolsDriverConfigFeature => {
+  let currentDriver: DaffDevToolsSelectedDriver;
+
+  if (typeof driverConfig.currentDriver === 'string') {
+    currentDriver = {
+      id: driverConfig.currentDriver,
+      properties: {},
+    };
+  } else {
+    currentDriver = {
+      id: driverConfig.availableDrivers[0]?.id || '',
+      properties: {},
+    };
+  }
+
+  const completeDriverConfig: DaffDriverConfig = {
+    ...driverConfig,
+    currentDriver,
+  };
+
   return {
     kind: 'driver-config',
-    driverConfig,
+    driverConfig: completeDriverConfig,
   };
-}
+};
 
 /**
  * Configuration function for Daffodil Dev Tools
  */
-export function provideDaffDevTools(
+export const provideDaffDevTools = (
   config?: Partial<DaffDevToolsConfig>,
   ...features: DaffDevToolsFeature[]
-): (Provider | EnvironmentProviders)[] {
+): (Provider | EnvironmentProviders)[]  => {
   const driverConfigs = features
     .filter(feature => feature.kind === 'driver-config')
     .map(feature => feature.driverConfig);

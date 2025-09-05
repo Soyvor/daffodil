@@ -6,7 +6,7 @@
   border: 1px solid #e0e0e0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   flex: 0 0 300px;
-  max-width: 25%;
+  max-width: 360px;
 }
 
 h3 {
@@ -127,5 +127,147 @@ h3 {
     flex: 1;
     max-width: none;
   }
+}
+
+.driver-properties {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.driver-properties h4 {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #424242;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.property-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: #757575;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-field input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #424242;
+  font-size: 13px;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.property-field input:focus {
+  outline: none;
+  border-color: #dd0031;
+  box-shadow: 0 0 0 2px rgba(221, 0, 49, 0.1);
+  background: #fafafa;
+}
+
+.property-field input:hover:not(:focus) {
+  border-color: #bdbdbd;
+}
+
+.property-field input::placeholder {
+  color: #9e9e9e;
+  font-style: italic;
+}
+
+.driver-properties.disabled {
+  opacity: 0.6;
+}
+
+.property-field input:disabled {
+  background: #f5f5f5;
+  color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+.quick-btn:disabled {
+  background: #f5f5f5;
+  color: #9e9e9e;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.quick-btn.primary:disabled {
+  background: #f5f5f5;
+  color: #9e9e9e;
+  border-color: #e0e0e0;
+}
+
+.driver-select option:disabled {
+  color: #9e9e9e;
+}
+
+.magento-cors-note {
+  background: #fff3cd;
+  border: 1px solid #ffecb3;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.cors-note-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.cors-note-icon {
+  font-size: 14px;
+}
+
+.cors-note-header h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #856404;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.magento-cors-note p {
+  margin: 0 0 8px 0;
+  font-size: 11px;
+  color: #664d03;
+  line-height: 1.4;
+}
+
+.cors-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #0d6efd;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.cors-link:hover {
+  color: #0a58ca;
+  text-decoration: underline;
+}
+
+.link-icon {
+  font-size: 10px;
 }
 

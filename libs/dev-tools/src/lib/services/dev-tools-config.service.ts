@@ -14,6 +14,9 @@ import {
 } from '../interfaces/driver-config.interface';
 import { DAFF_DEV_TOOLS_CONFIG } from '../tokens/config';
 
+// Re-export the token for convenience
+export { DAFF_DEV_TOOLS_CONFIG };
+
 /**
  * Service for managing dev tools configuration and driver registrations
  */

@@ -1,121 +1,247 @@
 :host {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  transition: transform 0.3s ease;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	transition: transform 0.3s ease;
 }
 
 :host.collapsed {
-  transform: translateY(calc(100% - 60px));
+	transform: translateY(calc(100% - 60px));
 }
 
 :host.hidden {
-  transform: translateY(100%);
+	transform: translateY(100%);
 }
 
 .debug-bar {
-  background: #ffffff;
-  border-top: 1px solid #e0e0e0;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+	background: #ffffff;
+	border-top: 1px solid #e0e0e0;
+	box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .debug-bar-header {
-  padding: 12px 24px;
-  background: #ffffff;
-  border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
+	padding: 12px 24px;
+	background: #ffffff;
+	border-bottom: 1px solid #f0f0f0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
 }
 
 .debug-bar-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: #dd0031;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .debug-bar-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
 }
 
-.hide-btn {
-  background: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  color: #757575;
-  padding: 4px 8px;
-  border-radius: 3px;
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
+.header-community-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
-.hide-btn:hover {
-  background: #eeeeee;
-  border-color: #bdbdbd;
+.header-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 10px;
+	border-radius: 6px;
+	font-weight: 500;
+	font-size: 11px;
+	text-decoration: none;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	border: 1px solid transparent;
+	white-space: nowrap;
+}
+
+.header-btn .btn-text {
+	display: inline;
+}
+
+.header-btn .btn-icon {
+	font-size: 12px;
+}
+
+.header-btn.github-btn {
+	background: rgba(0, 0, 0, 0.05);
+	color: #424242;
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+.header-btn.github-btn:hover {
+	background: rgba(0, 0, 0, 0.1);
+	transform: translateY(-1px);
+}
+
+.header-btn.discord-btn {
+	background: rgba(106, 87, 255, 0.1);
+	color: #6a57ff;
+	border-color: rgba(106, 87, 255, 0.2);
+}
+
+.header-btn.discord-btn:hover {
+	background: rgba(106, 87, 255, 0.15);
+	transform: translateY(-1px);
 }
 
 .debug-bar-toggle {
-  font-size: 12px;
-  color: #757575;
-  font-weight: 400;
+	font-size: 12px;
+	color: #757575;
+	font-weight: 400;
 }
 
 .debug-bar-content {
-  padding: 16px 24px;
-  display: flex;
-  gap: 12px;
-  max-height: 200px;
-  overflow-y: auto;
-  background: #fafafa;
+	padding: 16px 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	overflow-y: auto;
+	background: #fafafa;
 }
 
 .debug-bar-empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-  padding: 24px;
-  color: #757575;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 100%;
+	padding: 24px;
+	color: #757575;
 }
 
 .empty-state-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
-  opacity: 0.6;
+	font-size: 32px;
+	margin-bottom: 12px;
+	opacity: 0.6;
 }
 
 .empty-state-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: #424242;
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 8px;
+	color: #424242;
 }
 
 .empty-state-message {
-  font-size: 12px;
-  line-height: 1.4;
-  max-width: 400px;
+	font-size: 12px;
+	line-height: 1.4;
+	max-width: 400px;
 }
 
 .empty-state-message code {
-  background: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
-  padding: 2px 4px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 11px;
-  color: #dd0031;
+	background: #f5f5f5;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+	padding: 2px 4px;
+	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+	font-size: 11px;
+	color: #dd0031;
 }
 
+
+@media screen and (max-width: 768px) {
+	.debug-bar-content {
+		padding: 12px 16px;
+	}
+
+	.debug-bar-title-text {
+		display: none;
+	}
+
+	.debug-bar-actions {
+		gap: 12px;
+	}
+
+	.header-community-actions {
+		gap: 6px;
+	}
+
+	.header-btn {
+		padding: 6px 10px;
+		font-size: 11px;
+		gap: 4px;
+	}
+
+	.debug-bar-toggle {
+		display: none;
+	}
+}
+
+/* Drivers explanation section */
+.drivers-explanation {
+	background: #f8fafc;
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	padding: 16px 20px;
+	margin-bottom: 20px;
+}
+
+.explanation-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 8px;
+}
+
+.explanation-icon {
+	font-size: 18px;
+	opacity: 0.8;
+}
+
+.explanation-header h4 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: #2d3748;
+	letter-spacing: -0.025em;
+}
+
+.drivers-explanation p {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #4a5568;
+	font-weight: 400;
+}
+
+/* Add drivers layout for larger screens */
+.drivers-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 16px;
+	margin-top: 8px;
+}
+
+@media screen and (max-width: 768px) {
+	.drivers-explanation {
+		padding: 14px 16px;
+		margin-bottom: 16px;
+	}
+
+	.explanation-header h4 {
+		font-size: 15px;
+	}
+
+	.drivers-explanation p {
+		font-size: 13px;
+		line-height: 1.4;
+	}
+
+	.drivers-grid {
+		grid-template-columns: 1fr;
+		gap: 12px;
+	}
+}

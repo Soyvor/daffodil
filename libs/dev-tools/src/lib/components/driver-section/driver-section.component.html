@@ -5,17 +5,49 @@
 <div class="driver-controls">
   <div class="driver-select">
     <label>Current Driver:</label>
-    <select [value]="selectedDriver" (change)="onDriverChange($event)">
-      @for (availableDriver of driver.availableDrivers; track availableDriver) {
-        <option [value]="availableDriver">
-          {{ availableDriver }}
+    <select [value]="selectedDriver?.id" (change)="onDriverChange($event)">
+      @for (availableDriver of driver.availableDrivers; track availableDriver.id) {
+        <option [value]="availableDriver.id" [disabled]="availableDriver.disabled">
+          {{ availableDriver.name }}
         </option>
       }
     </select>
   </div>
+  
+  @if (selectedDriver && selectedDriver.properties && selectedDriver.properties.size > 0) {
+    <div class="driver-properties" [class.disabled]="selectedDriver.disabled">
+      <h4>Driver Properties</h4>
+      @for (entry of getPropertiesEntries(); track entry[0]) {
+        <div class="property-field">
+          <label>{{ entry[1].label }}</label>
+          <input 
+            type="text" 
+            [value]="propertyValues[entry[0]] || ''"
+            [placeholder]="entry[1].placeholder || ''"
+            [disabled]="selectedDriver.disabled"
+            (input)="onPropertyChange(entry[0], $any($event.target).value)"
+          />
+        </div>
+      }
+    </div>
+  }
+  
+  @if (isMagentoDriver) {
+    <div class="magento-cors-note">
+      <div class="cors-note-header">
+        <span class="cors-note-icon">⚠️</span>
+        <h4>CORS Configuration Required</h4>
+      </div>
+      <p>For Magento drivers, you may need to configure CORS on your Magento backend.</p>
+      <a href="https://github.com/graycoreio/magento2-cors" target="_blank" class="cors-link">
+        <span class="link-icon">📦</span>
+        Use graycoreio/magento2-cors package
+      </a>
+    </div>
+  }
+  
   <div class="quick-actions">
-    <button class="quick-btn primary" (click)="onApplyChanges()">Apply Changes</button>
-    <button class="quick-btn" (click)="onResetToDefault()">Reset to Default</button>
-    <button class="quick-btn" (click)="onTestConnection()">Test Connection</button>
+    <button class="quick-btn primary" [disabled]="selectedDriver?.disabled" (click)="onApplyChanges()">Apply Changes</button>
+    <button class="quick-btn" [disabled]="selectedDriver?.disabled" (click)="onResetToDefault()">Reset to Default</button>
   </div>
 </div>

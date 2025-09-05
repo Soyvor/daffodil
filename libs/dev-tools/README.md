@@ -32,11 +32,32 @@ bootstrapApplication(AppComponent, {
 			withDriverConfig({
 				name: '@daffodil/product/driver',
 				status: 'connected',
-				currentDriver: 'In-Memory Driver',
+				currentDriver: 'in-memory',
 				availableDrivers: [
-					'In-Memory Driver',
-					'Shopify Driver',
-					'Magento Driver',
+					{
+						id: 'in-memory',
+						name: 'In-Memory Driver',
+						properties: new Map([
+							['apiKey', { type: 'input', id: 'apiKey', label: 'API Key', defaultValue: '' }],
+							['timeout', { type: 'input', id: 'timeout', label: 'Timeout (ms)', defaultValue: '5000' }],
+						]),
+					},
+					{
+						id: 'shopify',
+						name: 'Shopify Driver',
+						properties: new Map([
+							['shopUrl', { type: 'input', id: 'shopUrl', label: 'Shop URL', defaultValue: 'myshop.myshopify.com' }],
+							['accessToken', { type: 'input', id: 'accessToken', label: 'Access Token', defaultValue: '' }],
+						]),
+					},
+					{
+						id: 'magento',
+						name: 'Magento Driver',
+						properties: new Map([
+							['baseUrl', { type: 'input', id: 'baseUrl', label: 'Base URL', defaultValue: 'https://my-magento-store.com' }],
+							['storeCode', { type: 'input', id: 'storeCode', label: 'Store Code', defaultValue: 'default' }],
+						]),
+					},
 				],
 			}),
 		),
@@ -59,42 +80,43 @@ bootstrapApplication(AppComponent, {
 				name: '@daffodil/product/driver',
 				status: 'connected',
 				currentDriver: 'in-memory',
-				availableDrivers: ['in-memory', 'magento'],
-				onDriverChange: newDriver =>
-					console.log('Product driver changed to:', newDriver),
-				onTestConnection: () =>
-					console.log('Testing product driver connection'),
-				metadata: { version: '1.0.0' },
+				availableDrivers: [
+					{
+						id: 'in-memory',
+						name: 'In-Memory Driver',
+						properties: new Map(),
+					},
+					{
+						id: 'magento',
+						name: 'Magento Driver',
+						properties: new Map([
+							['baseUrl', { type: 'input', id: 'baseUrl', label: 'Base URL', defaultValue: 'https://my-magento-store.com' }],
+						]),
+					},
+				],
 			}),
 			withDriverConfig({
 				name: '@daffodil/cart/driver',
 				status: 'disconnected',
 				currentDriver: 'magento',
-				availableDrivers: ['in-memory', 'magento'],
-				onApplyChanges: () => console.log('Applying cart driver changes'),
+				availableDrivers: [
+					{
+						id: 'in-memory',
+						name: 'In-Memory Driver',
+						properties: new Map(),
+					},
+					{
+						id: 'magento',
+						name: 'Magento Driver',
+						properties: new Map([
+							['storeCode', { type: 'input', id: 'storeCode', label: 'Store Code', defaultValue: 'default' }],
+						]),
+					},
+				],
 			}),
 		),
 	],
 });
-```
-
-### Runtime Registration
-
-Add driver cards dynamically at runtime:
-
-```typescript
-import { DaffDevToolsConfigService } from '@daffodil/dev-tools';
-
-constructor(private devToolsConfig: DaffDevToolsConfigService) {
-  devToolsConfig.registerDriver({
-    name: '@daffodil/cart/driver',
-    status: 'connected',
-    currentDriver: 'In-Memory Driver',
-    availableDrivers: ['In-Memory Driver', 'Custom API'],
-    onApplyChanges: () => this.applyCartDriverChange(),
-    onDriverChange: (newDriver) => this.switchCartDriver(newDriver)
-  });
-}
 ```
 
 ### Add to Template

@@ -1,3 +1,6 @@
+import { DaffDevToolsDriver } from './driver';
+import { DaffDevToolsSelectedDriver } from './selected-driver';
+
 export interface DaffDriverConfig {
   /**
    * Display name for the driver section
@@ -12,17 +15,13 @@ export interface DaffDriverConfig {
   /**
    * Currently active driver
    */
-  currentDriver: string;
+  currentDriver: DaffDevToolsSelectedDriver;
 
   /**
    * List of available drivers that can be switched to
    */
-  availableDrivers: string[];
+  availableDrivers: DaffDevToolsDriver[];
 
-  /**
-   * Optional callback when a driver change is requested
-   */
-  onDriverChange?: (newDriver: string) => void | Promise<void>;
 
   /**
    * Optional callback when apply changes is clicked
@@ -33,16 +32,6 @@ export interface DaffDriverConfig {
    * Optional callback when reset to default is clicked
    */
   onResetToDefault?: () => void | Promise<void>;
-
-  /**
-   * Optional callback when test connection is clicked
-   */
-  onTestConnection?: () => void | Promise<void>;
-
-  /**
-   * Optional custom properties for the driver
-   */
-  metadata?: Record<string, any>;
 }
 
 export interface DaffDevToolsConfig {

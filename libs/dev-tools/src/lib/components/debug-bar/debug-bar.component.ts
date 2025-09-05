@@ -13,6 +13,7 @@ import {
 } from 'rxjs';
 
 import { DaffDriverConfig } from '../../interfaces/driver-config.interface';
+import { DaffDevToolsSelectedDriver } from '../../interfaces/selected-driver';
 import { DaffDevToolsConfigService } from '../../services/dev-tools-config.service';
 import { DaffDriverSectionComponent } from '../driver-section/driver-section.component';
 
@@ -97,7 +98,7 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  onApplyChanges(event: { driverName: string; newDriver: string }) {
+  onApplyChanges(event: { driverName: string; newDriver: DaffDevToolsSelectedDriver }) {
     const driver = this.drivers.find(d => d.name === event.driverName);
     if (driver) {
       // Update local state
@@ -105,11 +106,6 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
         this.configService.updateDriver(event.driverName, {
           currentDriver: event.newDriver,
         });
-      }
-
-      // Call custom handler if provided
-      if (driver.onDriverChange) {
-        driver.onDriverChange(event.newDriver);
       }
 
       // Call apply changes handler if provided
@@ -123,10 +119,14 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
     const driver = this.drivers.find(d => d.name === driverName);
     if (driver) {
       const defaultDriver = driver.availableDrivers[0];
+      const defaultSelectedDriver: DaffDevToolsSelectedDriver = {
+        id: defaultDriver.id,
+        properties: {},
+      };
 
       if (this.configService) {
         this.configService.updateDriver(driverName, {
-          currentDriver: defaultDriver,
+          currentDriver: defaultSelectedDriver,
         });
       }
 
@@ -135,15 +135,6 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
       } else {
         console.log(`Resetting ${driverName} to default`);
       }
-    }
-  }
-
-  onTestConnection(driverName: string) {
-    const driver = this.drivers.find(d => d.name === driverName);
-    if (driver?.onTestConnection) {
-      driver.onTestConnection();
-    } else {
-      console.log(`Testing connection for ${driverName}`);
     }
   }
 }
