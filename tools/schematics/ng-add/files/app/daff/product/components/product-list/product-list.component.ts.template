@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, startWith } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { DaffProductDriver, DaffProductServiceInterface } from '@daffodil/product/driver';
 
@@ -12,29 +13,47 @@ import { DaffProductDriver, DaffProductServiceInterface } from '@daffodil/produc
       <div class="section-header">
         <h1>Merchandise</h1>
       </div>
-      <div class="product-grid">
-        @for (item of products$ | async; track item.id) {
-          <div class="product-card">
-            <div class="product-image-container">
-              <img 
-                class="product-image"
-                [src]="item.thumbnail.url"
-                [alt]="item.thumbnail.label"
-                loading="lazy"
-              />
-            </div>
-            <div class="product-info">
-              <h3 class="product-name">{{ item.name }}</h3>
-              <span class="product-category">MERCHANDISE</span>
-              <div class="price-container">
-                <span class="current-price">\${{ item.price }}</span>
-                <span class="original-price">\${{ (item.price * 1.25).toFixed(2) }}</span>
-                <span class="discount">20% OFF</span>
+      
+      @if (products$ | async; as state) {
+        @if (state.error) {
+          <div class="error-container">
+            <div class="error-icon">⚠️</div>
+            <h3>Unable to load products</h3>
+            <p>{{ state.error.message || 'Something went wrong while fetching products.' }}</p>
+            <p>Try switching to a different driver in the debug bar below, then click Retry.</p>
+            <button class="retry-button" (click)="retry()">Retry</button>
+          </div>
+        } @else if (state.loading) {
+          <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading products...</p>
+          </div>
+        } @else {
+          <div class="product-grid">
+            @for (item of state.data; track item.id) {
+              <div class="product-card">
+                <div class="product-image-container">
+                  <img 
+                    class="product-image"
+                    [src]="item.thumbnail.url"
+                    [alt]="item.thumbnail.label"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">{{ item.name }}</h3>
+                  <span class="product-category">MERCHANDISE</span>
+                  <div class="price-container">
+                    <span class="current-price">\${{ item.price }}</span>
+                    <span class="original-price">\${{ (item.price * 1.25).toFixed(2) }}</span>
+                    <span class="discount">20% OFF</span>
+                  </div>
+                </div>
               </div>
-            </div>
+            }
           </div>
         }
-      </div>
+      }
     </div>
   `,
   styles: [`
@@ -46,8 +65,13 @@ import { DaffProductDriver, DaffProductServiceInterface } from '@daffodil/produc
       --gray-700: #404040;
       --gray-900: #171717;
       --red-600: #dc2626;
+      --blue-500: #1f66ff;
+      --blue-600: #1557e6;
+      --purple-500: #6a57ff;
+      --purple-600: #5845e6;
+      --teal-600: #00835f;
       
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       box-sizing: border-box;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -174,17 +198,93 @@ import { DaffProductDriver, DaffProductServiceInterface } from '@daffodil/produc
         margin-bottom: 1rem;
       }
     }
+
+    .error-container {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    .error-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .error-container h3 {
+      color: var(--red-600);
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+    }
+
+    .error-container p {
+      color: var(--gray-700);
+      margin: 0 0 1.5rem 0;
+    }
+
+    .retry-button {
+      background: var(--red-600);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .retry-button:hover {
+      background: #b91c1c;
+    }
+
+    .loading-container {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--gray-200);
+      border-top: 3px solid var(--red-600);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-container p {
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   `]
 })
 export class ProductListComponent implements OnInit {
-  products$!: Observable<any[]>;
+  products$!: Observable<{ data: any[]; error: any; loading: boolean }>;
 
   private productDriver: DaffProductServiceInterface = inject(DaffProductDriver);
 
   constructor() { }
 
   ngOnInit(): void {
-    // Products will be injected via service
-    this.products$ = this.productDriver.getAll();
+    this.products$ = this.productDriver.getAll().pipe(
+      map((products) => ({ data: products, error: null, loading: false })),
+      catchError((error) => of({ data: [], error, loading: false })),
+      startWith({ data: [], error: null, loading: true })
+    );
+  }
+
+  retry() {
+    this.products$ = this.productDriver.getAll().pipe(
+      map((products) => ({ data: products, error: null, loading: false })),
+      catchError((error) => of({ data: [], error, loading: false })),
+      startWith({ data: [], error: null, loading: true })
+    );
   }
 }
