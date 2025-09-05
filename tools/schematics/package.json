@@ -58,6 +58,9 @@
         "dependsOn": [
           "build"
         ]
+      },
+      "build": {
+        "outputs": ["{workspaceRoot}/dist/commerce"]
       }
     }
   }

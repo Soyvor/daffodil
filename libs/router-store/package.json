@@ -18,5 +18,12 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": ["{workspaceRoot}/dist/router-store"]
+      }
+    }
+  }
 }
