@@ -1,5 +1,7 @@
 import {
+  EnvironmentProviders,
   isDevMode,
+  makeEnvironmentProviders,
   Provider,
 } from '@angular/core';
 
@@ -38,7 +40,7 @@ export function withDriverConfig(driverConfig: DaffDriverConfig): DaffDevToolsDr
 export function provideDaffDevTools(
   config?: Partial<DaffDevToolsConfig>,
   ...features: DaffDevToolsFeature[]
-): Provider[] {
+): (Provider | EnvironmentProviders)[] {
   const driverConfigs = features
     .filter(feature => feature.kind === 'driver-config')
     .map(feature => feature.driverConfig);
@@ -51,10 +53,10 @@ export function provideDaffDevTools(
   };
 
   return [
-    {
+    makeEnvironmentProviders([{
       provide: DAFF_DEV_TOOLS_CONFIG,
       useValue: defaultConfig,
-    },
+    }]),
     DaffDevToolsConfigService,
   ];
-}
+};
