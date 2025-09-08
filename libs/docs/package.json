@@ -23,8 +23,7 @@
     "build": "ng build docs --configuration production",
     "lint": "cd ../.. && ng lint docs",
     "lint:fix": "npm run lint -- --fix",
-    "test": "ng test docs --watch=false --browsers=ChromeHeadless",
-    "publish": "cd ../../dist/docs && npm publish --access=public"
+    "test": "ng test docs --watch=false --browsers=ChromeHeadless"
   },
   "peerDependencies": {
     "@angular/common": "0.0.0-PLACEHOLDER",
