@@ -22,6 +22,13 @@
 		"eslint": [
 			"{workspaceRoot}/.eslintrc.js",
 			"{workspaceRoot}/tools/eslint/config/index.js"
+		],
+		"docs": [
+			"{workspaceRoot}/**/*.md",
+			"{workspaceRoot}/**/index.json",
+			"{workspaceRoot}/libs/**/*.ts",
+			"{workspaceRoot}/libs/**/*.html",
+			"{workspaceRoot}/libs/**/*.scss"
 		]
 	},
 	"tasksRunnerOptions": {
@@ -44,6 +51,8 @@
 	"targetDefaults": {
 		"build": {
 			"inputs": [
+				"default",
+				"^default",
 				"notSpec",
 				"^notSpec",
 				"notIndex",
