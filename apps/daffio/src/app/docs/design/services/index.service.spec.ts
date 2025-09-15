@@ -1,10 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import {
-  DAFF_DOCS_DESIGN_PATH,
-  DaffDoc,
-} from '@daffodil/docs-utils';
+import { DaffDoc } from '@daffodil/docs-utils';
 
 import { DaffioDocsDesignIndexService } from './index.service';
 import {
@@ -47,7 +44,7 @@ describe('DaffioDocsDesignIndexService', () => {
 
     service.getList().subscribe((guides) => {
       expect(guides).toEqual(mockGuideList);
-      expect(fetchAssetServiceSpy.fetch).toHaveBeenCalledWith('/assets/daffio//docs/design/index.json', `${DAFF_DOCS_DESIGN_PATH}/index`);
+      expect(fetchAssetServiceSpy.fetch).toHaveBeenCalledWith('/assets/daffio/docs/design/index.json', `design/index`);
       done();
     });
   });
