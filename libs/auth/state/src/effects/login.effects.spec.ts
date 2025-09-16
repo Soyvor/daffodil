@@ -1,13 +1,5 @@
-import {
-  flush,
-  TestBed,
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Action } from '@ngrx/store';
-import {
-  hot,
-  cold,
-} from 'jasmine-marbles';
 import {
   Observable,
   of,
@@ -27,7 +19,6 @@ import {
   DaffAuthInvalidAPIResponseError,
 } from '@daffodil/auth/driver';
 import {
-  DaffAuthStorageFailure,
   DaffAuthLogin,
   DaffAuthLoginSuccess,
   DaffAuthLoginFailure,
