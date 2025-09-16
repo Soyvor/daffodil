@@ -1,5 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import {
+  flush,
+  TestBed,
+} from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import {
   hot,
   cold,
@@ -8,6 +12,7 @@ import {
   Observable,
   of,
 } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
 
 import {
   DaffLoginInfo,
@@ -43,6 +48,8 @@ import { daffTransformErrorToStateError } from '@daffodil/core/state';
 
 import { DaffAuthLoginEffects } from './login.effects';
 
+
+
 describe('@daffodil/auth/state | DaffAuthLoginEffects', () => {
   let actions$: Observable<any>;
   let effects: DaffAuthLoginEffects;
@@ -54,13 +61,6 @@ describe('@daffodil/auth/state | DaffAuthLoginEffects', () => {
 
   let registrationFactory: DaffAccountRegistrationFactory;
   const authFactory: DaffAuthTokenFactory = new DaffAuthTokenFactory();
-
-  const authStorageFailureAction = new DaffAuthStorageFailure(daffTransformErrorToStateError(
-    new DaffStorageServiceError('Storage of auth token has failed.')),
-  );
-  const throwStorageError = () => {
-    throw new DaffStorageServiceError('Storage of auth token has failed.');
-  };
 
   let mockAuth: DaffAuthToken;
   let mockLoginInfo: DaffLoginInfo;
@@ -98,110 +98,169 @@ describe('@daffodil/auth/state | DaffAuthLoginEffects', () => {
     mockLoginInfo = { email, password };
   });
 
+  afterEach(() => {
+    daffLoginDriver.login.calls.reset();
+    daffLoginDriver.logout.calls.reset();
+    setAuthTokenSpy.calls.reset();
+    removeAuthTokenSpy.calls.reset();
+  });
+
+  const setupLoginDriver = (
+    testScheduler: TestScheduler,
+    shouldSucceed: boolean,
+    errorToThrow?: any,
+  ) => {
+    if (shouldSucceed) {
+      daffLoginDriver.login.and.returnValue(of(mockAuth));
+    } else {
+      daffLoginDriver.login.and.returnValue(
+        testScheduler.createColdObservable('#', {}, errorToThrow),
+      );
+    }
+  };
+
+  const setupLogoutDriver = (
+    testScheduler: TestScheduler,
+    shouldSucceed: boolean,
+    errorToThrow?: any,
+  ) => {
+    if (shouldSucceed) {
+      daffLoginDriver.logout.and.returnValue(of(undefined));
+    } else {
+      daffLoginDriver.logout.and.returnValue(
+        testScheduler.createColdObservable('#', {}, errorToThrow),
+      );
+    }
+  };
+
+  const setupStorageService = (shouldSucceed: boolean, errorToThrow?: any) => {
+    if (!shouldSucceed && errorToThrow) {
+      setAuthTokenSpy.and.throwError(errorToThrow);
+    }
+  };
+
+  const testEffectWithMarbles = (
+    effect$: Observable<any>,
+    action: any,
+    expectedAction: any,
+    testScheduler: TestScheduler,
+  ) => {
+    testScheduler.run(helpers => {
+      actions$ = helpers.hot('--a', { a: action });
+      helpers.expectObservable(effect$).toBe('--b', { b: expectedAction });
+      helpers.flush();
+    });
+  };
+
   it('should be created', () => {
     expect(effects).toBeTruthy();
   });
 
   describe('login$ | when the user logs in', () => {
-    let expected;
-
     const mockAuthLoginAction = new DaffAuthLogin(mockLoginInfo);
 
-    describe('and the login is successful', () => {
-      beforeEach(() => {
-        daffLoginDriver.login.and.returnValue(of(mockAuth));
-        const mockAuthLoginSuccessAction = new DaffAuthLoginSuccess(mockAuth);
+    describe('when login succeeds and token storage succeeds', () => {
+      it('should return DaffAuthLoginSuccess and store the token', () => {
+        const testScheduler = new TestScheduler((actual, expected) => {
+          expect(actual).toEqual(expected);
+        });
 
-        actions$ = hot('--a', { a: mockAuthLoginAction });
-        expected = cold('--b', { b: mockAuthLoginSuccessAction });
-      });
+        setupLoginDriver(testScheduler, true);
+        setupStorageService(true);
 
-      it('should notify state that the login was successful', () => {
-        expect(effects.login$).toBeObservable(expected);
-      });
+        const expectedAction = new DaffAuthLoginSuccess(mockAuth);
+        testEffectWithMarbles(effects.login$, mockAuthLoginAction, expectedAction, testScheduler);
 
-      it('should store the auth token', () => {
-        expect(effects.login$).toBeObservable(expected);
         expect(setAuthTokenSpy).toHaveBeenCalledWith(mockAuth.token);
-      });
-
-      describe('but the token storage fails', () => {
-        beforeEach(() => {
-          setAuthTokenSpy.and.callFake(throwStorageError);
-          const mockAuthLoginFailureAction = new DaffAuthLoginFailure({
-            code: 'DAFF_STORAGE_FAILURE', recoverable: false, message: 'Storage of auth token has failed.',
-          });
-          expected = cold('--b', { b: mockAuthLoginFailureAction });
-        });
-
-        it('should return a DaffAuthStorageFailure', () => {
-          expect(effects.login$).toBeObservable(expected);
-        });
-
-        describe('unless the storage service throws a server side error', () => {
-          beforeEach(() => {
-            const error = new DaffServerSideStorageError('Server side');
-            const serverSideAction = new DaffAuthServerSide(daffTransformErrorToStateError(error));
-            setAuthTokenSpy.and.throwError(error);
-            expected = cold('--(a)', { a: serverSideAction });
-          });
-
-          it('should dispatch a server side action', () => {
-            expect(effects.login$).toBeObservable(expected);
-          });
-        });
       });
     });
 
-    describe('and the login fails', () => {
-      beforeEach(() => {
-        const error = new DaffAuthenticationFailedError('Failed to log in');
-        const response = cold('#', {}, error);
-        daffLoginDriver.login.and.returnValue(response);
-        const mockAuthLoginFailureAction = new DaffAuthLoginFailure(daffTransformErrorToStateError(error));
+    describe('when login succeeds but token storage fails with DaffStorageServiceError', () => {
+      it('should return DaffAuthLoginFailure with storage failure error', () => {
+        const testScheduler = new TestScheduler((actual, expected) => {
+          expect(actual).toEqual(expected);
+        });
 
-        actions$ = hot('--a', { a: mockAuthLoginAction });
-        expected = cold('--b', { b: mockAuthLoginFailureAction });
+        const storageError = new DaffStorageServiceError('Storage of auth token has failed.');
+        setupLoginDriver(testScheduler, true);
+        setupStorageService(false, storageError);
+
+        const expectedAction = new DaffAuthLoginFailure({
+          code: 'DAFF_STORAGE_FAILURE',
+          recoverable: false,
+          message: 'Storage of auth token has failed.',
+        });
+
+        testEffectWithMarbles(effects.login$, mockAuthLoginAction, expectedAction, testScheduler);
       });
+    });
 
-      it('should notify state that the login failed', () => {
-        expect(effects.login$).toBeObservable(expected);
+    describe('when login succeeds but token storage fails with DaffServerSideStorageError', () => {
+      it('should return DaffAuthServerSide action', () => {
+        const testScheduler = new TestScheduler((actual, expected) => {
+          expect(actual).toEqual(expected);
+        });
+
+        const serverSideError = new DaffServerSideStorageError('Server side');
+        setupLoginDriver(testScheduler, true);
+        setupStorageService(false, serverSideError);
+
+        const expectedAction = new DaffAuthServerSide(
+          daffTransformErrorToStateError(serverSideError),
+        );
+
+        testEffectWithMarbles(effects.login$, mockAuthLoginAction, expectedAction, testScheduler);
+      });
+    });
+
+    describe('when login fails with authentication error', () => {
+      it('should return DaffAuthLoginFailure with authentication error', () => {
+        const testScheduler = new TestScheduler((actual, expected) => {
+          expect(actual).toEqual(expected);
+        });
+
+        const authError = new DaffAuthenticationFailedError('Failed to log in');
+        setupLoginDriver(testScheduler, false, authError);
+
+        const expectedAction = new DaffAuthLoginFailure(
+          daffTransformErrorToStateError(authError),
+        );
+
+        testEffectWithMarbles(effects.login$, mockAuthLoginAction, expectedAction, testScheduler);
       });
     });
   });
 
   describe('logout$ | when the user logs out', () => {
-    let expected;
-
     const mockAuthLogoutAction = new DaffAuthLogout();
 
-    describe('and the logout is successful', () => {
-      beforeEach(() => {
-        daffLoginDriver.logout.and.returnValue(of(undefined));
-        const mockAuthLogoutSuccessAction = new DaffAuthLogoutSuccess();
+    describe('when logout succeeds', () => {
+      it('should return DaffAuthLogoutSuccess', () => {
+        const testScheduler = new TestScheduler((actual, expected) => {
+          expect(actual).toEqual(expected);
+        });
 
-        actions$ = hot('--a', { a: mockAuthLogoutAction });
-        expected = cold('--b', { b: mockAuthLogoutSuccessAction });
-      });
+        setupLogoutDriver(testScheduler, true);
 
-      it('should notify state that the logout succeeded', () => {
-        expect(effects.logout$).toBeObservable(expected);
+        const expectedAction = new DaffAuthLogoutSuccess();
+        testEffectWithMarbles(effects.logout$, mockAuthLogoutAction, expectedAction, testScheduler);
       });
     });
 
-    describe('and the logout fails', () => {
-      beforeEach(() => {
-        const error = new DaffAuthInvalidAPIResponseError('Failed to log out');
-        const response = cold('#', {}, error);
-        daffLoginDriver.logout.and.returnValue(response);
-        const mockAuthLogoutFailureAction = new DaffAuthLogoutFailure(daffTransformErrorToStateError(error));
+    describe('when logout fails with API response error', () => {
+      it('should return DaffAuthLogoutFailure with the error', () => {
+        const testScheduler = new TestScheduler((actual, expected) => {
+          expect(actual).toEqual(expected);
+        });
 
-        actions$ = hot('--a', { a: mockAuthLogoutAction });
-        expected = cold('--b', { b: mockAuthLogoutFailureAction });
-      });
+        const apiError = new DaffAuthInvalidAPIResponseError('Failed to log out');
+        setupLogoutDriver(testScheduler, false, apiError);
 
-      it('should notify state that the logout failed', () => {
-        expect(effects.logout$).toBeObservable(expected);
+        const expectedAction = new DaffAuthLogoutFailure(
+          daffTransformErrorToStateError(apiError),
+        );
+
+        testEffectWithMarbles(effects.logout$, mockAuthLogoutAction, expectedAction, testScheduler);
       });
     });
   });
