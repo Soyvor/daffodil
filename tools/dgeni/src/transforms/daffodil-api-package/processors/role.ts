@@ -34,6 +34,7 @@ import {
 } from '@daffodil/docs-utils';
 
 import { InlineTagProcessor } from './inline-tag-processor';
+import { defaultIndexer } from '../../../processors/convertToJson';
 import {
   MARKDOWN_CODE_PROCESSOR_NAME,
   MarkdownCodeProcessor,
@@ -97,9 +98,6 @@ export class RoleProcessor implements FilterableProcessor {
 
   readonly baseSearchIndexer = indexerFactory<DaffApiDocBase>(
     [
-      'id',
-      'title',
-      'kind',
       'docType',
       'role',
       'examples',
@@ -107,9 +105,10 @@ export class RoleProcessor implements FilterableProcessor {
       'name',
       'description',
     ],
-    // {
-    //   examples: extraIndexer(this.examplesSearchIndexer),
-    // },
+    {},
+    [
+      defaultIndexer,
+    ],
   );
 
   readonly decoratorSerialize = serializeFactory<DaffDocsApiDecorator>(
