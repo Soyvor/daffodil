@@ -7,6 +7,7 @@ import {
 import { DAFF_DOCS_PATH } from '@daffodil/docs-utils';
 
 import { homeRoute } from './content/home/home.route';
+import { notFoundRoute } from './content/not-found/not-found.route';
 import { supportRoute } from './content/support/support.route';
 import { DaffioMarketingFooterComponent } from './core/footer/marketing-footer/marketing-footer.component';
 import { DaffioMarketingNavContainer } from './core/nav/marketing/marketing.component';
@@ -43,8 +44,8 @@ export const appRoutes: Routes = [
         children: [
           homeRoute,
           { path: 'why-pwa', loadChildren: () => import('./content/why-pwa/why-pwa.module').then(m => m.DaffioWhyPwaModule) },
+          ...notFoundRoute,
           ...supportRoute,
-          { path: '404', loadChildren: () => import('./content/not-found/not-found.module').then(m => m.DaffioNotFoundModule) },
         ],
         data: {
           daffNamedViews: {
