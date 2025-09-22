@@ -31,7 +31,6 @@ bootstrapApplication(AppComponent, {
 			},
 			withDriverConfig({
 				name: '@daffodil/product/driver',
-				status: 'connected',
 				currentDriver: 'in-memory',
 				availableDrivers: [
 					{
@@ -78,7 +77,6 @@ bootstrapApplication(AppComponent, {
 			{ enabled: true },
 			withDriverConfig({
 				name: '@daffodil/product/driver',
-				status: 'connected',
 				currentDriver: 'in-memory',
 				availableDrivers: [
 					{
@@ -97,7 +95,6 @@ bootstrapApplication(AppComponent, {
 			}),
 			withDriverConfig({
 				name: '@daffodil/cart/driver',
-				status: 'disconnected',
 				currentDriver: 'magento',
 				availableDrivers: [
 					{

@@ -19,21 +19,6 @@ h3 {
   gap: 8px;
 }
 
-.status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.status-connected {
-  background: #4caf50;
-}
-
-.status-disconnected {
-  background: #f44336;
-}
-
 .driver-controls {
   display: flex;
   flex-direction: column;

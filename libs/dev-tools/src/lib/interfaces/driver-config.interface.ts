@@ -8,12 +8,7 @@ export interface DaffDriverConfig {
   name: string;
 
   /**
-   * Current status of the driver
-   */
-  status: 'connected' | 'disconnected';
-
-  /**
-   * Currently active driver
+   * Currently active driver ID
    */
   currentDriver: DaffDevToolsSelectedDriver;
 

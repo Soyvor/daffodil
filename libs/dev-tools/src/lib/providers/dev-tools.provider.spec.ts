@@ -59,7 +59,6 @@ describe('provideDaffDevTools', () => {
             { enabled: true },
             withDriverConfig({
               name: 'Product Driver',
-              status: 'connected',
               currentDriver: 'in-memory',
               availableDrivers: [inMemoryDriver, magentoDriver],
             }),
@@ -72,7 +71,6 @@ describe('provideDaffDevTools', () => {
       const config = TestBed.inject(DAFF_DEV_TOOLS_CONFIG);
       expect(config.drivers).toHaveSize(1);
       expect(config.drivers[0].name).toBe('Product Driver');
-      expect(config.drivers[0].status).toBe('connected');
       expect(config.drivers[0].currentDriver.id).toBe('in-memory');
       expect(config.drivers[0].availableDrivers).toEqual([inMemoryDriver, magentoDriver]);
     });
@@ -103,13 +101,11 @@ describe('provideDaffDevTools', () => {
             { enabled: true },
             withDriverConfig({
               name: 'Product Driver',
-              status: 'connected',
               currentDriver: 'in-memory',
               availableDrivers: [inMemoryDriver, magentoDriver],
             }),
             withDriverConfig({
               name: 'Cart Driver',
-              status: 'disconnected',
               currentDriver: 'magento',
               availableDrivers: [inMemoryDriver, magentoDriver],
             }),
@@ -159,7 +155,6 @@ describe('provideDaffDevTools', () => {
 
       const feature = withDriverConfig({
         name: 'Test Driver',
-        status: 'connected',
         currentDriver: 'test',
         availableDrivers: [testDriver, mockDriver],
       });
@@ -167,7 +162,6 @@ describe('provideDaffDevTools', () => {
       expect(feature).toBeDefined();
       expect(feature.kind).toBe('driver-config');
       expect(feature.driverConfig.name).toBe('Test Driver');
-      expect(feature.driverConfig.status).toBe('connected');
       expect(feature.driverConfig.currentDriver.id).toBe('test');
       expect(feature.driverConfig.availableDrivers).toEqual([testDriver, mockDriver]);
     });
