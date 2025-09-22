@@ -67,34 +67,6 @@ export class DaffDevToolsConfigService {
   }
 
   /**
-   * Register a driver configuration
-   */
-  registerDriver(config: DaffDriverConfig): void {
-    const currentDrivers = this._drivers.value;
-    const existingIndex = currentDrivers.findIndex(d => d.name === config.name);
-
-    if (existingIndex >= 0) {
-      // Update existing driver
-      currentDrivers[existingIndex] = config;
-    } else {
-      // Add new driver
-      currentDrivers.push(config);
-    }
-
-    this._drivers.next([...currentDrivers]);
-    this.updateConfigDrivers();
-  }
-
-  /**
-   * Unregister a driver by name
-   */
-  unregisterDriver(name: string): void {
-    const currentDrivers = this._drivers.value.filter(d => d.name !== name);
-    this._drivers.next(currentDrivers);
-    this.updateConfigDrivers();
-  }
-
-  /**
    * Update a specific driver configuration
    */
   updateDriver(name: string, updates: Partial<DaffDriverConfig>): void {
