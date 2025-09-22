@@ -71,7 +71,7 @@ describe('provideDaffDevTools', () => {
       const config = TestBed.inject(DAFF_DEV_TOOLS_CONFIG);
       expect(config.drivers).toHaveSize(1);
       expect(config.drivers[0].name).toBe('Product Driver');
-      expect(config.drivers[0].currentDriver.id).toBe('in-memory');
+      expect(config.drivers[0].currentDriver).toBe('in-memory');
       expect(config.drivers[0].availableDrivers).toEqual([inMemoryDriver, magentoDriver]);
     });
 
@@ -119,8 +119,8 @@ describe('provideDaffDevTools', () => {
       expect(config.drivers).toHaveSize(2);
       expect(config.drivers[0].name).toBe('Product Driver');
       expect(config.drivers[1].name).toBe('Cart Driver');
-      expect(config.drivers[0].currentDriver.id).toBe('in-memory');
-      expect(config.drivers[1].currentDriver.id).toBe('magento');
+      expect(config.drivers[0].currentDriver).toBe('in-memory');
+      expect(config.drivers[1].currentDriver).toBe('magento');
     });
   });
 
@@ -162,7 +162,7 @@ describe('provideDaffDevTools', () => {
       expect(feature).toBeDefined();
       expect(feature.kind).toBe('driver-config');
       expect(feature.driverConfig.name).toBe('Test Driver');
-      expect(feature.driverConfig.currentDriver.id).toBe('test');
+      expect(feature.driverConfig.currentDriver).toBe('test');
       expect(feature.driverConfig.availableDrivers).toEqual([testDriver, mockDriver]);
     });
   });

@@ -13,7 +13,6 @@ import {
 } from 'rxjs';
 
 import { DaffDriverConfig } from '../../interfaces/driver-config.interface';
-import { DaffDevToolsSelectedDriver } from '../../interfaces/selected-driver';
 import { DaffDevToolsConfigService } from '../../services/dev-tools-config.service';
 import { DaffDriverSectionComponent } from '../driver-section/driver-section.component';
 
@@ -90,21 +89,14 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
     this.isCollapsed = true;
   }
 
-  toggleVisibility() {
-    if (this.isHidden) {
-      this.showDebugBar();
-    } else {
-      this.hideDebugBar();
-    }
-  }
-
-  onApplyChanges(event: { driverName: string; newDriver: DaffDevToolsSelectedDriver }) {
+  onApplyChanges(event: { driverName: string; newDriverId: string; properties: Record<string, any> }) {
     const driver = this.drivers.find(d => d.name === event.driverName);
     if (driver) {
-      // Update local state
+      // Store the configuration for this driver
       if (this.configService) {
+        this.configService.storeDriverConfiguration(event.driverName, event.newDriverId, event.properties);
         this.configService.updateDriver(event.driverName, {
-          currentDriver: event.newDriver,
+          currentDriver: event.newDriverId,
         });
       }
 
@@ -119,14 +111,12 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
     const driver = this.drivers.find(d => d.name === driverName);
     if (driver) {
       const defaultDriver = driver.availableDrivers[0];
-      const defaultSelectedDriver: DaffDevToolsSelectedDriver = {
-        id: defaultDriver.id,
-        properties: {},
-      };
 
       if (this.configService) {
+        // Clear stored configuration and reset to default driver
+        this.configService.storeDriverConfiguration(driverName, defaultDriver.id, {});
         this.configService.updateDriver(driverName, {
-          currentDriver: defaultSelectedDriver,
+          currentDriver: defaultDriver.id,
         });
       }
 

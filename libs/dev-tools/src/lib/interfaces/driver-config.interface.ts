@@ -1,5 +1,4 @@
 import { DaffDevToolsDriver } from './driver';
-import { DaffDevToolsSelectedDriver } from './selected-driver';
 
 export interface DaffDriverConfig {
   /**
@@ -10,13 +9,18 @@ export interface DaffDriverConfig {
   /**
    * Currently active driver ID
    */
-  currentDriver: DaffDevToolsSelectedDriver;
+  currentDriver: string;
 
   /**
    * List of available drivers that can be switched to
    */
   availableDrivers: DaffDevToolsDriver[];
 
+  /**
+   * Stored configurations for all drivers (keyed by driver ID)
+   * This allows preserving user settings when switching between drivers
+   */
+  storedConfigurations?: Record<string, Record<string, any>>;
 
   /**
    * Optional callback when apply changes is clicked

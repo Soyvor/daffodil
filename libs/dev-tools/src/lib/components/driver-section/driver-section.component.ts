@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnInit,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 
 import {
@@ -12,7 +13,7 @@ import {
   DaffDevToolsDriverProperty,
 } from '../../interfaces/driver';
 import { DaffDriverConfig } from '../../interfaces/driver-config.interface';
-import { DaffDevToolsSelectedDriver } from '../../interfaces/selected-driver';
+import { DaffDevToolsConfigService } from '../../services/dev-tools-config.service';
 
 @Component({
   selector: 'daff-driver-section',
@@ -24,36 +25,29 @@ import { DaffDevToolsSelectedDriver } from '../../interfaces/selected-driver';
 export class DaffDriverSectionComponent implements OnInit {
   @Input({ required: true }) driver!: DaffDriverConfig;
 
-  @Output() applyChanges = new EventEmitter<{ driverName: string; newDriver: DaffDevToolsSelectedDriver }>();
+  @Output() applyChanges = new EventEmitter<{ driverName: string; newDriverId: string; properties: Record<string, any> }>();
   @Output() resetToDefault = new EventEmitter<string>();
   @Output() testConnection = new EventEmitter<string>();
 
   selectedDriver: DaffDevToolsDriver | null = null;
   propertyValues: Record<string, any> = {};
+  private configService = inject(DaffDevToolsConfigService);
+
 
   ngOnInit() {
-    const currentDriverId = this.driver.currentDriver.id;
-    this.selectedDriver = this.driver.availableDrivers.find(d => d.id === currentDriverId) || null;
-    this.initializePropertyValues();
-  }
-
-  private initializePropertyValues() {
-    this.propertyValues = { ...this.driver.currentDriver.properties };
+    this.selectedDriver = this.configService.getSelectedDriver(this.driver.name);
+    this.propertyValues = this.configService.initializeDriverProperties(this.driver.name);
   }
 
   onDriverChange(event: Event) {
     const target = <HTMLSelectElement>event.target;
-    this.selectedDriver = this.driver.availableDrivers.find(d => d.id === target.value) || null;
-    this.updatePropertyValues();
-  }
+    const newDriverId = target.value;
 
-  private updatePropertyValues() {
-    this.propertyValues = {};
-    if (this.selectedDriver?.properties) {
-      this.selectedDriver.properties.forEach((property, key) => {
-        this.propertyValues[key] = property.defaultValue || '';
-      });
-    }
+    // Update the selected driver reference
+    this.selectedDriver = this.driver.availableDrivers.find(d => d.id === newDriverId) || null;
+
+    // Load the property values for the new driver from stored configurations
+    this.propertyValues = this.configService.getDriverPropertyValues(this.driver.name, newDriverId);
   }
 
   onPropertyChange(propertyId: string, value: any) {
@@ -73,19 +67,27 @@ export class DaffDriverSectionComponent implements OnInit {
 
   onApplyChanges() {
     if (this.selectedDriver) {
-      const selectedDriverData: DaffDevToolsSelectedDriver = {
-        id: this.selectedDriver.id,
-        properties: { ...this.propertyValues },
-      };
+      // Store the configuration
+      this.configService.storeDriverConfiguration(this.driver.name, this.selectedDriver.id, this.propertyValues);
 
+      // Update the current driver
       this.applyChanges.emit({
         driverName: this.driver.name,
-        newDriver: selectedDriverData,
+        newDriverId: this.selectedDriver.id,
+        properties: { ...this.propertyValues },
       });
     }
   }
 
   onResetToDefault() {
+    if (this.selectedDriver) {
+      // Reset to default values using the service
+      this.propertyValues = this.configService.resetDriverToDefaults(
+        this.driver.name,
+        this.selectedDriver.id,
+      );
+    }
+
     this.resetToDefault.emit(this.driver.name);
   }
 }

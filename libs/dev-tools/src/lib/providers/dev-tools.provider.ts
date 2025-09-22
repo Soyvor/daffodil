@@ -9,7 +9,6 @@ import {
   DaffDevToolsConfig,
   DaffDriverConfig,
 } from '../interfaces/driver-config.interface';
-import { DaffDevToolsSelectedDriver } from '../interfaces/selected-driver';
 import { DaffDevToolsConfigService } from '../services/dev-tools-config.service';
 import { DAFF_DEV_TOOLS_CONFIG } from '../tokens/config';
 
@@ -29,24 +28,28 @@ export interface DaffDevToolsDriverConfigFeature {
 /**
  * Helper function to create a driver configuration feature
  */
-export const withDriverConfig = (driverConfig: Omit<DaffDriverConfig, 'currentDriver'> & { currentDriver?: string  }): DaffDevToolsDriverConfigFeature => {
-  let currentDriver: DaffDevToolsSelectedDriver;
+export const withDriverConfig = (driverConfig: Omit<DaffDriverConfig, 'storedConfigurations'> & { currentDriver?: string }): DaffDevToolsDriverConfigFeature => {
+  const currentDriver = driverConfig.currentDriver || driverConfig.availableDrivers[0]?.id || '';
 
-  if (typeof driverConfig.currentDriver === 'string') {
-    currentDriver = {
-      id: driverConfig.currentDriver,
-      properties: {},
-    };
-  } else {
-    currentDriver = {
-      id: driverConfig.availableDrivers[0]?.id || '',
-      properties: {},
-    };
-  }
+  // Prefill storedConfigurations with default values for each driver
+  const storedConfigurations: Record<string, Record<string, any>> = {};
+
+  driverConfig.availableDrivers.forEach(driver => {
+    const defaultValues: Record<string, any> = {};
+
+    if (driver.properties) {
+      driver.properties.forEach((property, key) => {
+        defaultValues[key] = property.defaultValue || '';
+      });
+    }
+
+    storedConfigurations[driver.id] = defaultValues;
+  });
 
   const completeDriverConfig: DaffDriverConfig = {
     ...driverConfig,
     currentDriver,
+    storedConfigurations,
   };
 
   return {
@@ -67,10 +70,10 @@ export const provideDaffDevTools = (
     .map(feature => feature.driverConfig);
 
   const defaultConfig: DaffDevToolsConfig = {
-    drivers: driverConfigs,
     enabled: isDevMode(),
     startCollapsed: true,
     ...config,
+    drivers: driverConfigs,  // Ensure drivers with storedConfigurations are not overwritten
   };
 
   return [
