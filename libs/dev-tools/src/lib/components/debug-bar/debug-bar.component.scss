@@ -1,4 +1,19 @@
-@import '@daffodil/design/scss/theming';
+// Color constants from libs/design/scss/theming/_color-palettes.scss
+$yellow-60: #ffc810;
+$yellow-10: #fffaeb;
+$red-60: #ec0019;
+$red-20: #fae0e0;
+$purple-60: #6a57ff;
+$purple-10: #ebebff;
+$green-60: #00852e;
+$green-10: #d1fbd6;
+$blue-60: #1f66ff;
+$blue-10: #ebf1ff;
+$neutral-20: #e8e8e8;
+$neutral-60: #767676;
+$neutral-70: #5e5e5e;
+$neutral-80: #474747;
+$neutral-90: #323232;
 
 :host {
   // Remove fixed positioning from host
@@ -26,7 +41,7 @@
   gap: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid map-get($daff-yellow, 60);
+  border: 2px solid $yellow-60;
   animation: attentionPulse 8s infinite;
   padding: 0 12px;
 
@@ -46,7 +61,7 @@
   .toggle-text {
     font-size: 11px;
     font-weight: 600;
-    color: map-get($daff-neutral, 80);
+    color: $neutral-80;
     letter-spacing: 0.3px;
     white-space: nowrap;
   }
@@ -56,43 +71,43 @@
   0%, 50%, 100% {
     transform: scale(1) rotate(0deg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-color: map-get($daff-yellow, 60);
+    border-color: $yellow-60;
     background: #fff;
   }
   52.5% {
     transform: scale(1.1) rotate(15deg);
     box-shadow: 0 6px 20px rgba(236, 0, 25, 0.4);
-    border-color: map-get($daff-red, 60);
-    background: linear-gradient(135deg, #fff 0%, map-get($daff-red, 20) 100%);
+    border-color: $red-60;
+    background: linear-gradient(135deg, #fff 0%, $red-20 100%);
   }
   55% {
     transform: scale(1.1) rotate(-15deg);
     box-shadow: 0 6px 20px rgba(106, 87, 255, 0.4);
-    border-color: map-get($daff-purple, 60);
-    background: linear-gradient(135deg, #fff 0%, map-get($daff-purple, 10) 100%);
+    border-color: $purple-60;
+    background: linear-gradient(135deg, #fff 0%, $purple-10 100%);
   }
   57.5% {
     transform: scale(1.1) rotate(15deg);
     box-shadow: 0 6px 20px rgba(0, 133, 46, 0.4);
-    border-color: map-get($daff-green, 60);
-    background: linear-gradient(135deg, #fff 0%, map-get($daff-green, 10) 100%);
+    border-color: $green-60;
+    background: linear-gradient(135deg, #fff 0%, $green-10 100%);
   }
   60% {
     transform: scale(1.1) rotate(-15deg);
     box-shadow: 0 6px 20px rgba(31, 102, 255, 0.4);
-    border-color: map-get($daff-blue, 60);
-    background: linear-gradient(135deg, #fff 0%, map-get($daff-blue, 10) 100%);
+    border-color: $blue-60;
+    background: linear-gradient(135deg, #fff 0%, $blue-10 100%);
   }
   62.5% {
     transform: scale(1.15) rotate(0deg);
     box-shadow: 0 8px 24px rgba(255, 200, 16, 0.5);
-    border-color: map-get($daff-yellow, 60);
-    background: linear-gradient(135deg, #fff 0%, map-get($daff-yellow, 10) 100%);
+    border-color: $yellow-60;
+    background: linear-gradient(135deg, #fff 0%, $yellow-10 100%);
   }
   65% {
     transform: scale(1) rotate(0deg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-color: map-get($daff-yellow, 60);
+    border-color: $yellow-60;
     background: #fff;
   }
 }
@@ -139,7 +154,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: map-get($daff-neutral, 90);
+  color: $neutral-90;
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.3px;
@@ -181,7 +196,7 @@
 
 .header-btn.github-btn {
   background: rgba(0, 0, 0, 0.05);
-  color: map-get($daff-neutral, 80);
+  color: $neutral-80;
   border-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -191,7 +206,7 @@
 
 .header-btn.discord-btn {
   background: rgba(106, 87, 255, 0.1);
-  color: map-get($daff-purple, 60);
+  color: $purple-60;
   border-color: rgba(106, 87, 255, 0.2);
 }
 
@@ -202,7 +217,7 @@
 .panel-close {
   background: #f8f9fa;
   border: 1px solid #e5e7eb;
-  color: map-get($daff-neutral, 70);
+  color: $neutral-70;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -216,7 +231,7 @@
 }
 
 .panel-close:hover {
-  background: map-get($daff-neutral, 20);
+  background: $neutral-20;
   transform: rotate(90deg);
 }
 
@@ -260,7 +275,7 @@
   text-align: center;
   width: 100%;
   padding: 24px;
-  color: map-get($daff-neutral, 60);
+  color: $neutral-60;
 }
 
 .empty-state-icon {
@@ -273,7 +288,7 @@
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: map-get($daff-neutral, 80);
+  color: $neutral-80;
 }
 
 .empty-state-message {
