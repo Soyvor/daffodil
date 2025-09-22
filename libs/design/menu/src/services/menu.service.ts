@@ -22,7 +22,7 @@ import {
 
 import { DaffLazyComponent } from '@daffodil/design';
 
-import { daffMenuCreateOverlay } from '../helpers/public_api';
+import { daffMenuCreateOverlay } from '../helpers/create-overlay';
 
 export interface DaffActivatedMenu {
   el: ElementRef;
