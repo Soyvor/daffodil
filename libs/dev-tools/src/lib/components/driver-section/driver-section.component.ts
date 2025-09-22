@@ -31,8 +31,12 @@ export class DaffDriverSectionComponent implements OnInit {
 
   selectedDriver: DaffDevToolsDriver | null = null;
   propertyValues: Record<string, any> = {};
+
   private configService = inject(DaffDevToolsConfigService);
 
+  get selectedDriverMessage() {
+    return this.selectedDriver?.message;
+  }
 
   ngOnInit() {
     this.selectedDriver = this.configService.getSelectedDriver(this.driver.name);
@@ -61,9 +65,6 @@ export class DaffDriverSectionComponent implements OnInit {
     return Array.from(this.selectedDriver.properties.entries());
   }
 
-  get isMagentoDriver(): boolean {
-    return this.selectedDriver?.id?.toLowerCase().includes('magento') || false;
-  }
 
   onApplyChanges() {
     if (this.selectedDriver) {

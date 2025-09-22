@@ -2,9 +2,7 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  HostListener,
   ChangeDetectionStrategy,
-  HostBinding,
   inject,
 } from '@angular/core';
 import {
@@ -28,8 +26,12 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   readonly configService = inject(DaffDevToolsConfigService, { optional: true });
 
-  @HostBinding('class.collapsed') isCollapsed = true;
-  @HostBinding('class.hidden') isHidden = false;
+  isCollapsed = true;
+
+
+  isHidden = false;
+
+  hasInteracted = false;
 
   drivers: DaffDriverConfig[] = [];
 
@@ -61,12 +63,10 @@ export class DaffDebugBarComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.ctrlKey && event.shiftKey && event.key === 'F12') {
-      event.preventDefault();
-      this.toggleVisibility();
-    }
+
+  onToggleClick() {
+    this.hasInteracted = true;
+    this.toggleDebugBar();
   }
 
   toggleDebugBar() {

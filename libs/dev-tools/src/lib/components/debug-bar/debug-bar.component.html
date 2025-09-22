@@ -1,63 +1,66 @@
-<div class="debug-bar" id="debugBar">
-  <div class="debug-bar-header" (click)="toggleDebugBar()">
-    <div class="debug-bar-title">
-      <img src="https://next.daff.io/assets/appicons/icon-96x96.png" width="36" height="36" alt="Daffodil">
-      <span class="debug-bar-title-text">Daffodil Developer Tools</span>
-    </div>
-    <div class="debug-bar-actions">
-      <div class="header-community-actions">
-        <a href="https://github.com/graycoreio/daffodil" target="_blank" class="header-btn github-btn" (click)="$event.stopPropagation()">
-          <span class="btn-icon">⭐</span>
-          <span class="btn-text">Star on Github</span>
-        </a>
-        <a href="https://discord.gg/jFTvVYwk" target="_blank" class="header-btn discord-btn" (click)="$event.stopPropagation()">
-          <span class="btn-icon">💬</span>
-          <span class="btn-text">Discord</span>
+<div class="debug-widget" id="debugWidget">
+  <!-- Floating toggle button -->
+  <button class="debug-toggle"
+       [class.interacted]="hasInteracted"
+       (click)="onToggleClick()">
+    <span class="daff-logo">
+          <img src="https://next.daff.io/assets/appicons/icon-96x96.png" alt="Daffodil">
+    </span>
+    <span class="toggle-text">Dev Tools</span>
+  </button>
+
+  <!-- Expandable panel -->
+  <div class="debug-panel" [class.open]="!isCollapsed && !isHidden">
+    <div class="panel-header">
+      <div class="panel-title">
+        <a href="https://www.daff.io/" target="_blank" (click)="$event.stopPropagation()">
+          <img src="https://next.daff.io/assets/appicons/icon-96x96.png" alt="Daffodil Logo">
         </a>
       </div>
-      <div class="debug-bar-toggle">Click to expand/collapse • Ctrl+Shift+F12 to hide/show</div>
+      <div class="panel-actions">
+        <a href="https://github.com/graycoreio/daffodil" target="_blank" class="header-btn github-btn" (click)="$event.stopPropagation()">
+          <span class="btn-icon">⭐</span>
+          <span class="btn-text">on GitHub</span>
+        </a>
+        <a href="https://discord.gg/jFTvVYwk" target="_blank" class="header-btn discord-btn" (click)="$event.stopPropagation()">
+          <span class="btn-text">Discord</span>
+        </a>
+        <button class="panel-close" (click)="onToggleClick()">×</button>
+      </div>
+    </div>
+
+    <div class="panel-content">
+      @if (configService && drivers.length > 0) {
+        <div class="drivers-explanation">
+          <p>Daffodil drivers are pluggable backends that connect your application to different data sources. Switch between our native In-Memory API, Magento, Shopify, or your own custom APIs without changing your application code.</p>        </div>
+
+        <div class="drivers-container">
+          @for (driver of drivers; track driver.name) {
+            <daff-driver-section
+              [driver]="driver"
+              (applyChanges)="onApplyChanges($event)"
+              (resetToDefault)="onResetToDefault($event)">
+            </daff-driver-section>
+          }
+        </div>
+      } @else {
+        <div class="drivers-explanation">
+          <p>Drivers enable your Daffodil application to connect to different eCommerce backends like Magento, Shopify, or custom APIs. Configure your dev tools to start switching between data sources.</p>
+        </div>
+
+        <div class="debug-bar-empty-state">
+          <div class="empty-state-icon">🔧</div>
+          <div class="empty-state-title">No Debug Configurations Available</div>
+          <div class="empty-state-message">
+            @if (!configService) {
+              Configure dev tools using <code>provideDaffDevTools()</code> to see driver configurations.
+            } @else {
+              No drivers have been configured yet. Add drivers using <code>withDriverConfig()</code>.
+            }
+          </div>
+        </div>
+      }
     </div>
   </div>
 
-  <div class="debug-bar-content">
-    @if (configService && drivers.length > 0) {
-      <div class="drivers-explanation">
-        <div class="explanation-header">
-          <div class="explanation-icon">⚙️</div>
-          <h4>Driver Configuration</h4>
-        </div>
-        <p>Daffodil drivers are pluggable backends that connect your application to different data sources. Switch between our native In-Memory API, Magento, Shopify, demo data, or custom APIs without changing your application code.</p>
-      </div>
-      
-      <div class="drivers-grid">
-        @for (driver of drivers; track driver.name) {
-          <daff-driver-section 
-            [driver]="driver"
-            (applyChanges)="onApplyChanges($event)"
-            (resetToDefault)="onResetToDefault($event)">
-          </daff-driver-section>
-        }
-      </div>
-    } @else {
-      <div class="drivers-explanation">
-        <div class="explanation-header">
-          <div class="explanation-icon">💡</div>
-          <h4>Driver Configuration</h4>
-        </div>
-        <p>Drivers enable your Daffodil application to connect to different eCommerce backends like Magento, Shopify, or custom APIs. Configure your dev tools to start switching between data sources.</p>
-      </div>
-      
-      <div class="debug-bar-empty-state">
-        <div class="empty-state-icon">🔧</div>
-        <div class="empty-state-title">No Debug Configurations Available</div>
-        <div class="empty-state-message">
-          @if (!configService) {
-            Configure dev tools using <code>provideDaffDevTools()</code> to see driver configurations.
-          } @else {
-            No drivers have been configured yet. Add drivers using <code>withDriverConfig()</code>.
-          }
-        </div>
-      </div>
-    }
-  </div>
 </div>

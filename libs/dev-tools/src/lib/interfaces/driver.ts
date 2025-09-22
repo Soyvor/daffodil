@@ -60,6 +60,20 @@ export interface DaffDevToolsDriver {
    * When true, the driver appears grayed out in the UI and cannot be activated.
    */
   disabled?: boolean;
+
+  /**
+   * Optional message to display when this driver is selected
+   * For example, CORS warnings for Magento drivers
+   */
+  message?: {
+    type: 'info' | 'warning' | 'error' | 'success';
+    title: string;
+    text: string;
+    link?: {
+      text: string;
+      url: string;
+    };
+  };
 }
 
 /**

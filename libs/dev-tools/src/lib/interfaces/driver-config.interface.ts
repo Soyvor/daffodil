@@ -23,6 +23,11 @@ export interface DaffDriverConfig {
   storedConfigurations?: Record<string, Record<string, any>>;
 
   /**
+   * Optional custom message to display for this driver section
+   */
+  message?: DaffDriverMessage;
+
+  /**
    * Optional callback when apply changes is clicked
    */
   onApplyChanges?: () => void | Promise<void>;
@@ -31,6 +36,31 @@ export interface DaffDriverConfig {
    * Optional callback when reset to default is clicked
    */
   onResetToDefault?: () => void | Promise<void>;
+}
+
+export interface DaffDriverMessage {
+  /**
+   * The type of message (info, warning, error, success)
+   */
+  type: 'info' | 'warning' | 'error' | 'success';
+
+  /**
+   * The title of the message
+   */
+  title: string;
+
+  /**
+   * The body text of the message
+   */
+  text: string;
+
+  /**
+   * Optional link to include with the message
+   */
+  link?: {
+    text: string;
+    url: string;
+  };
 }
 
 export interface DaffDevToolsConfig {
