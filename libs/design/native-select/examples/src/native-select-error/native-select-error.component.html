@@ -1,0 +1,15 @@
+<daff-form-field>
+  <daff-form-label>Label</daff-form-label>
+  <select daff-native-select [formControl]="control">
+    <option value="''">Select an option</option>
+    <option value="valid">Valid option</option>
+    <option value="invalid">Invalid option</option>
+  </select>
+  <daff-hint>Hint goes here.</daff-hint>
+  @if (control.errors?.required) {
+    <daff-error-message>This is a required field.</daff-error-message>
+  }
+  @if (control.hasError('pattern')) {
+    <daff-error-message>Your selection is invalid.</daff-error-message>
+  }
+</daff-form-field>

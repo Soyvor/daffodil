@@ -1,66 +1,127 @@
 import {
   Component,
-  ViewEncapsulation,
   Optional,
   Self,
-  Input,
   ElementRef,
-  HostListener,
-  HostBinding,
   ChangeDetectionStrategy,
+  OnInit,
+  Input,
+  booleanAttribute,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import {
+  NgControl,
+  Validators,
+} from '@angular/forms';
+import {
+  map,
+  merge,
+  of,
+  tap,
+} from 'rxjs';
 
+import { DaffFormFieldComponent } from '../form-field/form-field/form-field.component';
 import { DaffFormFieldControl } from '../form-field/form-field-control';
 
+/**
+ * DaffNativeSelectComponent provides the same functionality as a native `<select>` and contains custom styling and functionality.
+ */
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'select[daff-native-select]',
   template: '<ng-content></ng-content>',
-  styleUrls: ['./native-select.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrl: './native-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
 
     { provide: DaffFormFieldControl, useExisting: DaffNativeSelectComponent },
   ],
+  host: {
+    class: 'daff-native-select',
+    '(focus)': 'focus()',
+    '(blur)': 'blur()',
+    '[attr.id]': '_id',
+    '[attr.aria-describedby]': 'ariaDescribedBy',
+    '[disabled]': 'disabledAttribute',
+    '[required]': 'requiredAttribute',
+  },
   standalone: false,
 })
 
-export class DaffNativeSelectComponent extends DaffFormFieldControl<string | number> implements DaffFormFieldControl<string | number> {
+export class DaffNativeSelectComponent extends DaffFormFieldControl<string> implements DaffFormFieldControl<string>, OnInit {
   /**
    * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
    */
   controlType = 'native-select';
 
   /**
    * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
    */
-  @HostBinding('class.daff-native-select') class = true;
+  focused = false;
 
   /**
-   * Has the form been submitted.
+   * Implemented as part of DaffFormFieldControl.
    */
-  @Input() formSubmitted: boolean;
-  focused = false;
+  private get _id() {
+    return this.formField?.id;
+  };
+
+  /**
+   * @docs-private
+   */
+  get ariaDescribedBy() {
+    if(this.formField.hasErrorMessage()) {
+      return this.formField.errorMessageId;
+    } else if(this.formField.hasHint()) {
+      return this.formField.hintId;
+    } else {
+      return null;
+    }
+  }
 
   /**
    * @docs-private
    *
-   * TODO: Update functionality to match other control during refactor.
+   * Implemented as part of DaffFormFieldControl.
    */
-  disabled = false;
-
-  /**
-   * @docs-private
-   * TODO: Update functionality to match other control during refactor.
-   */
-  required = false;
+  @Input({ transform: booleanAttribute }) disabled = false;
 
   /**
    * @docs-private
    */
-  @HostListener('focus') focus() {
+  get disabledAttribute() {
+    return this.disabled || null;
+  }
+
+  private _required = false;
+
+  /**
+   * @docs-private
+   *
+   * Implemented as part of DaffFormFieldControl.
+   */
+  @Input({ transform: booleanAttribute })
+  get required(): boolean {
+    return this.ngControl?.control?.hasValidator(Validators.required) ?? this._required;
+  }
+  set required(value: boolean) {
+    this._required = value;
+  }
+
+  /**
+   * @docs-private
+   */
+  get requiredAttribute() {
+    return this.required || null;
+  }
+
+  /**
+   * @docs-private
+   */
+  focus() {
     this.focused = true;
     this.emitState();
   }
@@ -68,9 +129,9 @@ export class DaffNativeSelectComponent extends DaffFormFieldControl<string | num
   /**
    * @docs-private
    */
-  @HostListener('blur') blur() {
+  blur() {
     this.focused = false;
-    this.emitState();
+    this.emitState(true);
   }
 
   constructor(
@@ -79,14 +140,30 @@ export class DaffNativeSelectComponent extends DaffFormFieldControl<string | num
      */
     @Optional() @Self() public ngControl: NgControl,
     private _elementRef: ElementRef<HTMLInputElement>,
+    // @Optional is intentional so that we can control the error message thrown when the DaffFormFieldComponent is not used.
+    @Optional() private formField: DaffFormFieldComponent,
   ) {
     super(ngControl);
+
+    if(!this.formField) {
+      throw new Error('DaffNativeSelectComponent needs to be used with the DaffFormFieldComponent.');
+    }
   }
 
-  onFocus() {
-    this._elementRef.nativeElement.focus();
+  /** @docs-private */
+  ngOnInit() {
+    this.stateChanges = merge(
+      this._stateChanges.asObservable(),
+      this.ngControl ? this.ngControl.statusChanges : of(undefined),
+    ).pipe(
+      map(() => this.state),
+      tap((state) => this.disabled = state.disabled),
+    );
   }
 
+  /**
+   * @docs-private
+   */
   get value() {
     return this._elementRef.nativeElement.value;
   }
