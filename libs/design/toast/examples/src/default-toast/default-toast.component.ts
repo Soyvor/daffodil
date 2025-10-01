@@ -47,7 +47,7 @@ export class DefaultToastComponent implements OnInit {
    */
   ngOnInit() {
     this.update.subscribe(() => {
-      console.log('test');
+      // handle updates
     });
 
     this.closeToast.subscribe(() => {
