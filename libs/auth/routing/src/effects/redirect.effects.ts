@@ -1,22 +1,8 @@
-import {
-  Inject,
-  Injectable,
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-} from '@angular/router';
-import {
-  Actions,
-  createEffect,
-  ofType,
-} from '@ngrx/effects';
+import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import {
-  filter,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import {
   DaffAuthActions,
@@ -34,32 +20,44 @@ import {
 } from '../config/public_api';
 
 /**
- * Redirects the user to certain pages based on certain auth actions.
+ * Handles redirects after successful authentication-related actions.
  */
 @Injectable()
 export class DaffAuthRedirectEffects {
+
   constructor(
-    private actions$: Actions<DaffAuthLoginActions | DaffAuthActions | DaffAuthRegisterActions | DaffAuthResetPasswordActions>,
+    private actions$: Actions<
+      DaffAuthLoginActions | 
+      DaffAuthActions | 
+      DaffAuthRegisterActions | 
+      DaffAuthResetPasswordActions
+    >,
     private router: Router,
     private route: ActivatedRoute,
     @Inject(DAFF_AUTH_ROUTING_CONFIG) private config: DaffAuthRoutingConfig,
   ) {}
 
-  redirectAfterLoginOrRegister$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      DaffAuthLoginActionTypes.LoginSuccessAction,
-      DaffAuthRegisterActionTypes.RegisterSuccessAction,
-      DaffAuthResetPasswordActionTypes.ResetPasswordSuccessAction,
+  redirectAfterAuth$ = createEffect(() => 
+    this.actions$.pipe(
+      ofType(
+        DaffAuthLoginActionTypes.LoginSuccessAction,
+        DaffAuthRegisterActionTypes.RegisterSuccessAction,
+        DaffAuthResetPasswordActionTypes.ResetPasswordSuccessAction,
+      ),
+      // Only continue if the action has a token when needed
+      filter(action => {
+        const requiresToken = [
+          DaffAuthRegisterActionTypes.RegisterSuccessAction,
+          DaffAuthResetPasswordActionTypes.ResetPasswordSuccessAction
+        ];
+        return !requiresToken.includes(action.type as any) || Boolean((action as any).token);
+      }),
+      tap(() => {
+        const redirectUrl = this.route.snapshot.queryParamMap.get(this.config.redirectUrlParam);
+        this.router.navigateByUrl(redirectUrl || this.config.authCompleteRedirectPath);
+      }),
+      switchMap(() => EMPTY)
     ),
-    filter((action) => {
-      if ((action.type === DaffAuthRegisterActionTypes.RegisterSuccessAction || action.type === DaffAuthResetPasswordActionTypes.ResetPasswordSuccessAction) && !action.token) {
-        return false;
-      }
-      return true;
-    }),
-    tap((action) => {
-      this.router.navigateByUrl(this.route.snapshot.queryParamMap.get(this.config.redirectUrlParam) || this.config.authCompleteRedirectPath);
-    }),
-    switchMap(() => EMPTY),
-  ), { dispatch: false });
+    { dispatch: false }
+  );
 }
